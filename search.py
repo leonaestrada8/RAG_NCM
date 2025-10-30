@@ -132,16 +132,81 @@ def search_with_context(collection, query, k=8):
     Busca contextualizada que retorna NCMs e atributos relacionados
     """
     ncm_results = find_ncm_by_description(collection, query, k=k)
-    
+
     enriched_results = []
     for ncm in ncm_results:
         ncm_code = ncm.get('codigo_normalizado') or ncm.get('codigo')
         atributos = find_atributos_by_ncm(collection, ncm_code, k=10)
-        
+
         enriched_results.append({
             **ncm,
             "atributos": atributos,
             "num_atributos": len(atributos)
         })
-    
+
+    return enriched_results
+
+
+def find_ncm_hierarchical(collection, query_text, k=10, prefer_items=True, min_distance=None):
+    """
+    Busca hierárquica que prioriza itens específicos sobre categorias gerais
+
+    Args:
+        collection: Coleção ChromaDB
+        query_text: Texto da consulta
+        k: Número de resultados desejados
+        prefer_items: Se True, prioriza items (8 dígitos) sobre posições/capítulos
+        min_distance: Distância mínima para filtrar resultados fracos
+
+    Returns:
+        Lista de resultados ordenados priorizando itens específicos
+    """
+    # Busca mais resultados inicialmente para ter opções de filtragem
+    results = find_similars(
+        collection,
+        query_text,
+        k=k*3,  # Busca 3x mais para poder filtrar e priorizar
+        filters={"tipo": "ncm"}
+    )
+
+    if not results:
+        return []
+
+    # Filtra por distância mínima se especificado
+    if min_distance is not None:
+        results = [r for r in results if r.get('distance', 1) <= min_distance]
+
+    if prefer_items:
+        # Separa por nível hierárquico
+        items = [r for r in results if r.get('nivel') == 'item']
+        subposicoes = [r for r in results if r.get('nivel') == 'subposicao']
+        posicoes = [r for r in results if r.get('nivel') == 'posicao']
+        capitulos = [r for r in results if r.get('nivel') == 'capitulo']
+        outros = [r for r in results if r.get('nivel') not in ['item', 'subposicao', 'posicao', 'capitulo']]
+
+        # Retorna priorizando items, depois subposições, depois posições, depois capítulos
+        prioritized = items + subposicoes + posicoes + capitulos + outros
+        return prioritized[:k]
+
+    return results[:k]
+
+
+def find_ncm_hierarchical_with_context(collection, query_text, k=8):
+    """
+    Busca hierárquica com contexto completo (NCMs + atributos)
+    Combina find_ncm_hierarchical com search_with_context
+    """
+    ncm_results = find_ncm_hierarchical(collection, query_text, k=k, prefer_items=True)
+
+    enriched_results = []
+    for ncm in ncm_results:
+        ncm_code = ncm.get('codigo_normalizado') or ncm.get('codigo')
+        atributos = find_atributos_by_ncm(collection, ncm_code, k=10)
+
+        enriched_results.append({
+            **ncm,
+            "atributos": atributos,
+            "num_atributos": len(atributos)
+        })
+
     return enriched_results

@@ -23,39 +23,71 @@ def normalize_ncm_code(code):
     return code
 
 
+def pad_ncm_code(code):
+    """
+    Preenche código NCM corretamente baseado no tamanho original
+    Mantém a hierarquia correta sem preencher zeros à esquerda incorretamente
+
+    Exemplos:
+    - "01" (capítulo) -> "01000000"
+    - "0101" (posição) -> "01010000"
+    - "010121" (subposição) -> "01012100"
+    - "01012100" (item) -> "01012100"
+    """
+    if not code or pd.isna(code):
+        return ''
+
+    code = str(code).strip()
+
+    if len(code) == 2:  # Capítulo
+        return code + '000000'
+    elif len(code) == 4:  # Posição
+        return code + '0000'
+    elif len(code) == 6:  # Subposição
+        return code + '00'
+    elif len(code) == 8:  # Item completo
+        return code
+    elif len(code) == 7:  # Caso especial 7 dígitos
+        return code + '0'
+    else:
+        # Para códigos com tamanho incomum, preenche à direita
+        return code.ljust(8, '0')
+
+
 def load_ncm_data():
     """Carrega CSV com encoding correto e normaliza codigos"""
     encodings = ['iso-8859-1', 'latin-1', 'cp1252', 'utf-8']
-    
+
     for encoding in encodings:
         try:
             ncm_df = pd.read_csv(
-                NCM_FILE, 
+                NCM_FILE,
                 encoding=encoding,
                 dtype=str,
                 usecols=[0, 1]
             )
-            
+
             ncm_df.columns = ['Código', 'Descrição']
-            
+
             ncm_df['Código'] = ncm_df['Código'].fillna('').str.strip()
             ncm_df['Descrição'] = ncm_df['Descrição'].fillna('').str.strip()
-            
+
             ncm_df = ncm_df[
                 (ncm_df['Código'] != '') | (ncm_df['Descrição'] != '')
             ]
-            
+
+            # CORRIGIDO: Aplica padding correto baseado no tamanho original
             mask = ncm_df['Código'] != ''
-            ncm_df.loc[mask, 'Código'] = ncm_df.loc[mask, 'Código'].str.zfill(8)
-            
+            ncm_df.loc[mask, 'Código'] = ncm_df.loc[mask, 'Código'].apply(pad_ncm_code)
+
             ncm_df['CódigoNormalizado'] = ncm_df['Código'].apply(normalize_ncm_code)
-            
+
             print(f"NCM carregado: {encoding}, {len(ncm_df)} registros")
             return ncm_df
-            
+
         except Exception as e:
             continue
-    
+
     print("ERRO: Não foi possível carregar NCM")
     return pd.DataFrame(columns=['Código', 'Descrição', 'CódigoNormalizado'])
 
@@ -145,35 +177,58 @@ def create_atributos_dict(atributos_data):
 
 def create_enriched_ncm_text(row, hierarchy, atributos_dict):
     """
-    Cria texto SIMPLIFICADO focado apenas na descricao do NCM
-    
-    ANTES: Texto longo com capitulo, posicao, subposicao, atributos
-    DEPOIS: Texto curto focado apenas no NCM especifico
-    
-    Objetivo: Reduzir ruido e melhorar qualidade dos embeddings
+    Cria texto ENRIQUECIDO com hierarquia completa do NCM
+
+    Inclui contexto hierárquico para melhorar precisão das buscas:
+    - Descrição do item específico
+    - Categoria hierárquica (posição)
+    - Capítulo ao qual pertence
+    - Nível hierárquico
+
+    Objetivo: Melhorar qualidade dos embeddings através de contexto hierárquico
     """
     codigo = row['Código']
     codigo_norm = row['CódigoNormalizado']
     desc = row['Descrição']
-    
+
     if not codigo or not desc:
         return None
-    
+
     nivel = detect_ncm_level(codigo_norm)
-    
-    # VERSAO SIMPLIFICADA - Apenas NCM e descricao
+
+    # Base: NCM e descrição principal
     texto = f"NCM {codigo_norm}: {desc}"
-    
-    # Adiciona contexto minimo apenas para niveis inferiores
-    if nivel in ['capitulo', 'posicao']:
-        hier = hierarchy.get(codigo, {})
-        cap = hier.get('capitulo')
-        
-        if nivel == 'capitulo' and cap:
-            texto = f"Capítulo {cap['codigo']} - {desc}"
-        elif nivel == 'posicao' and cap:
-            texto = f"{desc} (Cap {cap['codigo']})"
-    
+
+    # Adiciona contexto hierárquico baseado no nível
+    hier = hierarchy.get(codigo, {})
+    capitulo = hier.get('capitulo')
+    posicao = hier.get('posicao')
+
+    # Para subitens e itens, adiciona categoria e capítulo para contexto
+    if nivel in ['subposicao', 'item']:
+        if capitulo:
+            texto += f"\nCapítulo: {capitulo['titulo']}"
+
+        if posicao and posicao.get('codigo') != capitulo.get('codigo'):
+            texto += f"\nCategoria: {posicao['titulo']}"
+
+    # Para posições, adiciona apenas o capítulo
+    elif nivel == 'posicao':
+        if capitulo:
+            texto += f"\nCapítulo: {capitulo['titulo']}"
+
+    # Para capítulos, mantém simples
+    elif nivel == 'capitulo':
+        texto = f"Capítulo {codigo_norm[:2]}: {desc}"
+
+    # Adiciona indicador de nível para ajudar no ranking
+    texto += f"\nNível: {nivel}"
+
+    # Indica se tem atributos cadastrados
+    if codigo_norm in atributos_dict:
+        num_attrs = len(atributos_dict[codigo_norm])
+        texto += f"\nAtributos: {num_attrs} cadastrados"
+
     return texto
 
 

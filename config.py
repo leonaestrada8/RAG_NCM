@@ -18,6 +18,11 @@ CLEAR_DB = True # True para limpar o banco de dados
 NCM_FILE = "SubItemNcm.csv"
 ATRIBUTOS_FILE = "ATRIBUTOS_POR_NCM_2025_09_30.json"
 
+# Configuração de indexação hierárquica
+# False = indexa todos os níveis (capítulos, posições, subitens, items)
+# True = indexa apenas items completos (8 dígitos), reduz ruído mas perde contexto geral
+INDEX_ONLY_ITEMS = False
+
 BATCH_SIZE = 5000  # ChromaDB suporta até ~5461
 #EMBEDDING_MODEL = 'sentence-transformers/all-MiniLM-L6-v2'
 #EMBEDDING_MODEL = 'sentence-transformers/paraphrase-multilingual-mpnet-base-v2'
