@@ -23,17 +23,18 @@ def setup_database():
         build_ncm_hierarchy, create_atributos_dict
     )
     from indexer import (
-        prepare_ncm_documents, prepare_atributos_documents, 
+        prepare_ncm_documents, prepare_atributos_documents,
         index_documents
     )
+    from config import INDEX_ONLY_ITEMS
     from datetime import datetime
-    
+
     start_total = time.time()
     print("="*60)
-    print("CONFIGURANDO BANCO VETORIAL ENRIQUECIDO")
+    print("CONFIGURANDO BANCO VETORIAL ENRIQUECIDO COM HIERARQUIA")
     print(f"Inicio: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("="*60)
-    
+
     client = get_client()
     collection = get_or_create_collection(client, clear=CLEAR_DB)
     
@@ -62,7 +63,7 @@ def setup_database():
         print("\n[5/6] Preparando documentos enriquecidos...")
         t0 = time.time()
         ncm_docs, ncm_metas, ncm_ids = prepare_ncm_documents(
-            ncm_data, hierarchy, atributos_dict
+            ncm_data, hierarchy, atributos_dict, index_only_items=INDEX_ONLY_ITEMS
         )
         attr_docs, attr_metas, attr_ids = prepare_atributos_documents(
             atributos_data
@@ -286,22 +287,22 @@ def show_statistics(collection):
 
 
 def interactive_mode(collection, prompt_file="system_prompt.txt"):
-    """Modo interativo com busca melhorada"""
+    """Modo interativo com busca hierárquica melhorada"""
     from llm_client import chat, get_models, load_system_prompt
     from search import (
-        find_ncm_by_description, find_atributos_by_ncm, 
-        search_with_context
+        find_ncm_by_description, find_atributos_by_ncm,
+        find_ncm_hierarchical, find_ncm_hierarchical_with_context
     )
     
     print(f"\nCarregando prompt: {prompt_file}")
     load_system_prompt(prompt_file)
     
     print("\n" + "="*60)
-    print("MODO INTERATIVO - RAG NCM APRIMORADO")
+    print("MODO INTERATIVO - RAG NCM COM BUSCA HIERÁRQUICA")
     print("="*60)
     print("\nComandos disponiveis:")
     print("  Digite sua pergunta e pressione Enter")
-    print("  'consulta <descricao>' - busca NCM por descricao")
+    print("  'consulta <descricao>' - busca NCM por descricao (hierarquica)")
     print("  'atributos <codigo_ncm>' - busca atributos de NCM")
     print("  'stats' - estatisticas do banco de dados")
     print("  'diagnostico' - relatorio completo de qualidade")
@@ -349,15 +350,16 @@ def interactive_mode(collection, prompt_file="system_prompt.txt"):
             
             if prompt.lower().startswith('consulta '):
                 descricao = prompt[9:].strip()
-                print(f"\nBuscando: {descricao}")
-                results = find_ncm_by_description(collection, descricao, k=5)
+                print(f"\nBuscando (hierarquico): {descricao}")
+                results = find_ncm_hierarchical(collection, descricao, k=5, prefer_items=True)
                 if results:
-                    print("\nResultados:")
+                    print("\nResultados (priorizando items específicos):")
                     for i, r in enumerate(results, 1):
                         cod = r.get('codigo_normalizado') or r.get('codigo')
                         desc = r['descricao'][:60]
                         dist = r['distance']
-                        print(f"  {i}. NCM {cod} (distancia: {dist:.4f})")
+                        nivel = r.get('nivel', 'desconhecido')
+                        print(f"  {i}. NCM {cod} [{nivel}] (distancia: {dist:.4f})")
                         print(f"     {desc}")
                 else:
                     print("Nenhum resultado")
@@ -417,13 +419,13 @@ def interactive_mode(collection, prompt_file="system_prompt.txt"):
                 print(f"Modelo alterado para: {current_model}")
                 continue
             
-            print(f"\n[RAG] Buscando informacoes...")
+            print(f"\n[RAG] Buscando informacoes (modo hierarquico)...")
             print(f"[LLM] Gerando resposta com {current_model}...\n")
-            
+
             result = ""
-            for chunk in chat(collection, prompt, current_model, search_with_context):
+            for chunk in chat(collection, prompt, current_model, find_ncm_hierarchical_with_context):
                 result = chunk
-            
+
             print(f"[ASSISTENTE]\n{result}")
             print("\n" + "-"*60)
             

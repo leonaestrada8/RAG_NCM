@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ChromaDB
+ncm_atributos_rag/
+chroma.sqlite3
+
+# Environment
+.env
+
+# OS
+.DS_Store
+Thumbs.db

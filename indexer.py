@@ -6,29 +6,36 @@ from config import BATCH_SIZE
 from tqdm import tqdm
 
 
-def prepare_ncm_documents(ncm_data, hierarchy, atributos_dict):
+def prepare_ncm_documents(ncm_data, hierarchy, atributos_dict, index_only_items=False):
     """
     Prepara documentos NCM enriquecidos para indexacao
     Com deteccao robusta de nomes de colunas (encoding issues)
+
+    Args:
+        ncm_data: DataFrame com dados NCM
+        hierarchy: Dicionário com hierarquia NCM
+        atributos_dict: Dicionário com atributos por NCM
+        index_only_items: Se True, indexa apenas items (8 dígitos completos),
+                         ignorando capítulos/posições/subposições estruturais
     """
-    from data_loader import create_enriched_ncm_text
-    
+    from data_loader import create_enriched_ncm_text, detect_ncm_level
+
     documents = []
     metadatas = []
     ids = []
-    
+
     if ncm_data.empty:
         return documents, metadatas, ids
-    
+
     # CORRECAO: Detecta nomes reais das colunas (independente de encoding)
     cols = ncm_data.columns.tolist()
-    
+
     # Primeira coluna = Codigo
     col_codigo = cols[0]
-    
+
     # Segunda coluna = Descricao
     col_desc = cols[1] if len(cols) > 1 else None
-    
+
     # Terceira coluna = CodigoNormalizado (ou buscar por nome)
     col_codigo_norm = None
     for col in cols:
@@ -37,31 +44,45 @@ def prepare_ncm_documents(ncm_data, hierarchy, atributos_dict):
             break
     if not col_codigo_norm and len(cols) > 2:
         col_codigo_norm = cols[2]
-    
+
     print("Preparando documentos NCM enriquecidos...")
     print(f"Colunas detectadas: [{col_codigo}], [{col_desc}], [{col_codigo_norm}]")
+    if index_only_items:
+        print("Modo: Indexando apenas ITEMS completos (ignorando estrutura hierárquica)")
+    else:
+        print("Modo: Indexando TODOS os níveis (capítulos, posições, subitens e items)")
+
     skipped = 0
-    
+    skipped_structural = 0
+
     for idx, row in tqdm(ncm_data.iterrows(), total=len(ncm_data), desc="NCM"):
-        doc_text = create_enriched_ncm_text(row, hierarchy, atributos_dict)
-        
-        if doc_text is None or not doc_text.strip():
-            skipped += 1
-            continue
-        
         # Usar nomes detectados
         codigo = str(row.get(col_codigo, '')).strip() if col_codigo else ''
         descricao = str(row.get(col_desc, '')).strip() if col_desc else ''
         codigo_norm = str(row.get(col_codigo_norm, '')).strip() if col_codigo_norm else codigo
-        
+
         if not codigo and not descricao:
             skipped += 1
             continue
-        
+
+        # NOVO: Filtragem de registros estruturais
+        if index_only_items and codigo_norm:
+            nivel = detect_ncm_level(codigo_norm)
+            # Pula capítulos, posições e subposições se index_only_items=True
+            if nivel in ['capitulo', 'posicao', 'subposicao']:
+                skipped_structural += 1
+                continue
+
+        doc_text = create_enriched_ncm_text(row, hierarchy, atributos_dict)
+
+        if doc_text is None or not doc_text.strip():
+            skipped += 1
+            continue
+
         documents.append(doc_text)
-        
+
         hier = hierarchy.get(codigo, {})
-        
+
         metadata = {
             "tipo": "ncm",
             "codigo": codigo,
@@ -71,13 +92,15 @@ def prepare_ncm_documents(ncm_data, hierarchy, atributos_dict):
             "capitulo": hier.get('capitulo', {}).get('codigo', '') if hier.get('capitulo') else '',
             "tem_atributos": codigo_norm in atributos_dict
         }
-        
+
         metadatas.append(metadata)
         ids.append(f"ncm_{idx}")
-    
+
     if skipped > 0:
         print(f"  Pulados {skipped} documentos vazios")
-    
+    if skipped_structural > 0:
+        print(f"  Pulados {skipped_structural} registros estruturais (capítulos/posições/subposições)")
+
     return documents, metadatas, ids
 
 
