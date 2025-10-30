@@ -1,0 +1,944 @@
+{
+  "versao" : "230",
+  "listaNcm" : [ {
+    "codigoNcm" : "0101.21.00",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_1",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2014-10-23"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0101.29.00",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_2",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2014-10-23"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0101.30.00",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_3",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2014-10-23"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0101.90.00",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_26",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2024-01-25"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0102.21.10",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0102.21.90",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0102.29.11",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0102.29.19",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0102.29.90",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0102.31.10",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_4",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2014-10-20"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0102.31.90",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_5",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2014-10-20"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0102.39.11",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_6",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2014-10-20"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0102.39.19",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_7",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2014-10-20"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0102.39.90",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_8",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2014-10-20"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0102.90.00",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_9",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2014-10-20"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0103.10.00",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_10",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2014-10-23"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0103.91.00",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_11",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2014-10-23"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0103.92.00",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_12",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2014-10-23"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0104.10.11",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_13",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2014-10-23"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, {
+      "codigo" : "ATT_14840",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14500",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14501",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    } ]
+  }, {
+    "codigoNcm" : "0104.10.19",
+    "listaAtributos" : [ {
+      "codigo" : "ATT_9332",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2023-11-06"
+    }, {
+      "codigo" : "ATT_14161",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-05-30"
+    }, {
+      "codigo" : "ATT_14",
+      "modalidade" : "Exportação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2014-10-23"
+    }, {
+      "codigo" : "ATT_14200",
+      "modalidade" : "Importação",
+      "obrigatorio" : true,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-30"
+    }, {
+      "codigo" : "ATT_14520",
+      "modalidade" : "Importação",
+      "obrigatorio" : false,
+      "multivalorado" : false,
+      "dataInicioVigencia" : "2025-06-29"
+    }, 

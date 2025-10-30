@@ -1,0 +1,932 @@
+Código,Descrição
+01,Animais vivos.,
+0101,"Cavalos, asininos e muares, vivos.",
+01012,- Cavalos:,
+01012100,-- Reprodutores de raça pura,
+01012900,-- Outros,
+01013000,- Asininos,
+01019000,- Outros,
+0102,Animais vivos da espécie bovina.,
+01022,- Bovinos domésticos:,
+010221,-- Reprodutores de raça pura,
+01022110,Prenhes ou com cria ao pé,
+01022190,Outros,
+010229,-- Outros,
+0102291,Para reprodução,
+01022911,Prenhes ou com cria ao pé,
+01022919,Outros,
+01022990,Outros,
+01023,- Búfalos:,
+010231,-- Reprodutores de raça pura,
+01023110,Prenhes ou com cria ao pé,
+01023190,Outros,
+010239,-- Outros,
+0102391,Para reprodução,
+01023911,Prenhes ou com cria ao pé,
+01023919,Outros,
+01023990,Outros,
+01029000,- Outros,
+0103,Animais vivos da espécie suína.,
+01031000,- Reprodutores de raça pura,
+01039,- Outros:,
+01039100,-- De peso inferior a 50 kg,
+01039200,-- De peso igual ou superior a 50 kg,
+0104,Animais vivos das espécies ovina e caprina.,
+010410,- Ovinos,
+0104101,Reprodutores de raça pura,
+01041011,Prenhes ou com cria ao pé,
+01041019,Outros,
+01041090,Outros,
+010420,- Caprinos,
+01042010,Reprodutores de raça pura,
+01042090,Outros,
+0105,"Aves da espécieGallus domesticus, patos, gansos, perus,",
+01051,- De peso não superior a 185 g:,
+010511,-- Aves da espécieGallus domesticus
+01051110,"De linhas puras ou híbridas, para reprodução"
+01051190,Outros
+01051200,-- Peruas e perus
+01051300,-- Patos
+01051400,-- Gansos
+01051500,-- Galinhas-d'angola (pintadas)
+01059,- Outros:
+01059400,-- Aves da espécieGallus domesticus
+01059900,-- Outros
+0106,Outros animais vivos.
+01061,- Mamíferos:
+01061100,-- Primatas
+01061200,"-- Baleias, golfinhos e botos (mamíferos da ordem Cetac"
+01061300,-- Camelos e outros camelídeos (Camelidae)
+01061400,-- Coelhos e lebres
+01061900,-- Outros
+01062000,- Répteis (incluindo as serpentes e as tartarugas marin
+01063,- Aves:
+01063100,-- Aves de rapina
+01063200,"-- Psitaciformes (incluindo os papagaios, os periquitos"
+010633,-- Avestruzes; emus (Dromaius novaehollandiae)
+01063310,"Avestruzes (Struthio camelus), para reprodução"
+01063390,Outros
+01063900,-- Outras
+01064,- Insetos:
+01064100,-- Abelhas
+01064900,-- Outros
+01069000,- Outros
+02,"Carnes e miudezas, comestíveis."
+0201,"Carnes de animais da espécie bovina, frescas ou refrige"
+02011000,- Carcaças e meias-carcaças
+020120,- Outras peças não desossadas
+02012010,Quartos dianteiros
+02012020,Quartos traseiros
+02012090,Outras
+02013000,- Desossadas
+0202,"Carnes de animais da espécie bovina, congeladas."
+02021000,- Carcaças e meias-carcaças
+020220,- Outras peças não desossadas
+02022010,Quartos dianteiros
+02022020,Quartos traseiros
+02022090,Outras
+02023000,- Desossadas
+0203,"Carnes de animais da espécie suína, frescas, refrigerad"
+02031,- Frescas ou refrigeradas:
+02031100,-- Carcaças e meias-carcaças
+02031200,"-- Pernas, pás e respectivos pedaços, não desossados"
+02031900,-- Outras
+02032,- Congeladas:
+02032100,-- Carcaças e meias-carcaças
+02032200,"-- Pernas, pás e respectivos pedaços, não desossados"
+02032900,-- Outras
+0204,"Carnes de animais das espécies ovina ou caprina, fresca"
+02041000,"- Carcaças e meias-carcaças de cordeiro, frescas ou ref"
+02042,"- Outras carnes de animais da espécie ovina, frescas ou"
+02042100,-- Carcaças e meias-carcaças
+02042200,-- Outras peças não desossadas
+02042300,-- Desossadas
+02043000,"- Carcaças e meias-carcaças de cordeiro, congeladas"
+02044,"- Outras carnes de animais da espécie ovina, congeladas"
+02044100,-- Carcaças e meias-carcaças
+02044200,-- Outras peças não desossadas
+02044300,-- Desossadas
+02045000,- Carnes de animais da espécie caprina
+02050000,"Carnes de animais das espécies cavalar, asinina e muar,"
+0206,"Miudezas comestíveis de animais das espécies bovina, su"
+02061000,"- Da espécie bovina, frescas ou refrigeradas"
+02062,"- Da espécie bovina, congeladas:"
+02062100,-- Línguas
+02062200,-- Fígados
+020629,-- Outras
+02062910,Rabos
+02062990,Outros
+02063000,"- Da espécie suína, frescas ou refrigeradas"
+02064,"- Da espécie suína, congeladas:"
+02064100,-- Fígados
+02064900,-- Outras
+02068000,"- Outras, frescas ou refrigeradas"
+02069000,"- Outras, congeladas"
+0207,"Carnes e miudezas, comestíveis, frescas, refrigeradas o"
+02071,- De aves da espécieGallus domesticus:
+02071100,"-- Não cortadas em pedaços, frescas ou refrigeradas"
+020712,"-- NÃO CORTADAS EM PEDAÇOS, CONGELADAS"
+02071210,COM MIUDEZAS
+02071220,SEM MIUDEZAS
+02071300,"-- Pedaços e miudezas, frescos ou refrigerados"
+020714,"-- PEDAÇOS E MIUDEZAS, CONGELADOS"
+0207141,PEDAÇOS NÃO DESOSSADOS
+02071411,PEITOS
+02071412,COXAS COM SOBRECOXAS
+02071413,ASAS
+02071419,OUTROS
+0207142,PEDAÇOS DESOSSADOS
+02071421,"PEITOS, COXAS E SOBRECOXAS, FORMANDO UMA SÓ PEÇA"
+02071422,PEITOS
+02071423,COXAS COM SOBRECOXAS
+02071424,CARNE MECANICAMENTE SEPARADA
+02071429,OUTROS
+0207143,MIUDEZAS
+02071431,FÍGADOS
+02071432,MOELAS
+02071433,CORAÇÕES
+02071434,PÉS E PATAS
+02071439,OUTRAS
+02072,- De peruas e de perus:
+02072400,"-- Não cortadas em pedaços, frescas ou refrigeradas"
+02072500,"-- Não cortadas em pedaços, congeladas"
+02072600,"-- Pedaços e miudezas, frescos ou refrigerados"
+02072700,"-- Pedaços e miudezas, congelados"
+02074,- De patos:
+02074100,"-- Não cortadas em pedaços, frescas ou refrigeradas"
+02074200,"-- Não cortadas em pedaços, congeladas"
+02074300,"-- Fígados gordos (foies gras), frescos ou refrigerados"
+02074400,"-- Outras, frescas ou refrigeradas"
+02074500,"-- Outras, congeladas"
+02075,- De gansos:
+02075100,"-- Não cortadas em pedaços, frescas ou refrigeradas"
+02075200,"-- Não cortadas em pedaços, congeladas"
+02075300,"-- Fígados gordos (foies gras), frescos ou refrigerados"
+02075400,"-- Outras, frescas ou refrigeradas"
+02075500,"-- Outras, congeladas"
+02076000,- De galinhas-d'angola (pintadas)
+0208,"Outras carnes e miudezas comestíveis, frescas, refriger"
+02081000,- De coelhos ou lebres
+02083000,- De primatas
+02084000,"- De baleias, golfinhos e botos (mamíferos da ordem Cet"
+02085000,- De répteis (incluindo as serpentes e as tartarugas ma
+02086000,- De camelos e outros camelídeos (Camelidae)
+02089000,- Outras
+0209,"Toucinho sem partes magras, gorduras de porco e de aves"
+020910,- De porco
+0209101,Toucinho
+02091011,"Fresco, refrigerado ou congelado"
+02091019,Outros
+0209102,Gordura
+02091021,"Fresca, refrigerada ou congelada"
+02091029,Outras
+02099000,- Outros
+0210,"Carnes e miudezas, comestíveis, salgadas ou em salmoura"
+02101,- Carnes da espécie suína:
+02101100,"-- Pernas, pás e respectivos pedaços, não desossados"
+02101200,-- Toucinhos entremeados (Barrigas (entremeadas)*) e se
+02101900,-- Outras
+02102000,- Carnes da espécie bovina
+02109,"- Outras, incluindo as farinhas e pós, comestíveis, de"
+02109100,-- De primatas
+02109200,"-- De baleias, golfinhos e botos (mamíferos da ordem Ce"
+02109300,-- De répteis (incluindo as serpentes e as tartarugas m
+021099,-- Outras
+0210991,Carnes de aves da posição 01.05
+02109911,De galos e de galinhas
+02109919,Outras
+02109920,Carnes da espécie ovina
+02109930,Carnes da espécie cavalar
+02109940,Miudezas comestíveis
+02109990,Outras
+03,"Peixes e crustáceos, moluscos e outros invertebrados aquáticos."
+0301,Peixes vivos.
+03011,- Peixes ornamentais:
+030111,-- De água doce
+03011110,Aruanã (Osteoglossum bicirrhosum)
+03011190,Outros
+03011900,-- Outros
+03019,- Outros peixes vivos:
+030191,"-- Trutas (Salmo trutta, Oncorhynchus mykiss, Oncorhync"
+03019110,Para reprodução
+03019190,Outras
+030192,-- Enguias (Anguillaspp.)
+03019210,Para reprodução
+03019290,Outras
+030193,"-- Carpas (Cyprinusspp., Carassiusspp., Ctenopharyngodo"
+03019310,Para reprodução
+03019390,Outras
+030194,"-- Atuns-azuis (atuns) (Thunnus thynnus, Thunnus orient"
+03019410,Para reprodução
+03019490,Outras
+030195,-- Atum-azul do sul (atum) (Thunnus maccoyii)
+03019510,Para reprodução
+03019590,Outros
+030199,-- Outros
+0301991,Para reprodução
+03019911,"Tilápias (Tilapiaspp., Oreochromisspp., Sarotherodonspp"
+03019912,"Esturjões (Acipenser baerii, Acipenser gueldenstaedtii,"
+03019919,Outros
+0301999,Outros
+03019991,"Tilápias (Tilapiaspp., Oreochromisspp., Sarotherodonspp"
+03019992,"Esturjões (Acipenser baerii, Acipenser gueldenstaedtii,"
+03019999,Outros
+0302,"Peixes frescos ou refrigerados, exceto os filés (filete"
+03021,"- Salmonídeos, exceto subprodutos comestíveis de peixes"
+03021100,"-- Trutas (Salmo trutta, Oncorhynchus mykiss, Oncorhync"
+03021300,"-- Salmões-do-pacífico (Oncorhynchus nerka, Oncorhynchu"
+03021400,-- Salmão-do-atlântico (Salmo salar) e salmão-do-danúbi
+03021900,-- Outros
+03022,"- Peixes chatos (Pleuronectidae, Bothidae, Cynoglossida"
+03022100,-- Linguados-gigantes (Alabotes*) (Reinhardtius hippogl
+03022200,-- Solha (Pleuronectes platessa)
+03022300,-- Linguados (Soleaspp.)
+03022400,-- Pregado (Psetta maxima)
+03022900,-- Outros
+03023,"- Atuns (do gêneroThunnus), bonito-listrado (gaiado*) ("
+03023100,-- Albacora-branca (atum) (Thunnus alalunga)
+03023200,-- Albacora-laje (atum) (Thunnus albacares)
+03023300,-- Bonito-listrado (Gaiado*) (Katsuwonus pelamis)
+03023400,-- Albacora-bandolim (atum) (Thunnus obesus)
+03023500,"-- Atuns-azuis (atuns) (Thunnus thynnus, Thunnus orient"
+03023600,-- Atum-azul do sul (atum) (Thunnus maccoyii)
+03023900,-- Outros
+03024,"- Arenques (Clupea harengus, Clupea pallasii), anchovas"
+03024100,"-- Arenques (Clupea harengus, Clupea pallasii)"
+030242,-- Anchovas (Biqueirões*) (Engraulisspp.)
+03024210,Anchoita (Engraulis anchoita)
+03024290,Outros
+03024300,"-- Sardinhas (Sardina pilchardus, Sardinopsspp.,Sardine"
+03024400,"-- Cavalinhas (Sardas e cavalas*) (Scomber scombrus, Sc"
+03024500,-- Carapaus (Trachurusspp.)
+03024600,-- Bijupirá (Cobia*) (Rachycentron canadum)
+03024700,-- Espadarte (Xiphias gladius)
+030249,-- Outros
+03024910,"Espadins, marlins, veleiros (Istiophoridae)"
+03024990,Outros
+03025,"- Peixes das famíliasBregmacerotidae, Euclichthyidae, G"
+03025100,"-- Bacalhau-do-atlântico (Gadus morhua), bacalhau-da-gr"
+03025200,-- Hadoque (Arinca*) (Melanogrammus aeglefinus)
+03025300,-- Saithe (Escamudo*) (Pollachius virens)
+03025400,"-- Merluzas (Pescadas*) e abróteas (Merlucciusspp., Uro"
+03025500,-- Polaca-do-alasca (Escamudo-do-alasca*) (Theragra cha
+03025600,"-- Verdinhos (Micromesistius poutassou, Micromesistius"
+03025900,-- Outros
+03027,"- Tilápias (Oreochromisspp.), bagres (peixes-gato*) (Pa"
+03027100,-- Tilápias (Oreochromisspp.)
+030272,"-- Bagres (Peixes-gato*) (Pangasiusspp., Silurusspp., C"
+03027210,Bagre americano (Ictalurus punctatus)
+03027290,Outros
+03027300,"-- Carpas (Cyprinusspp., Carassiusspp., Ctenopharyngodo"
+03027400,-- Enguias (Anguillaspp.)
+03027900,-- Outros
+03028,"- Outros peixes, exceto subprodutos comestíveis de peix"
+03028100,-- Cação e outros tubarões
+03028200,-- Raias (Rajidae)
+030283,-- Merluza negra e merluza antártica (Marlongas*) (Diss
+03028310,Merluza negra (Dissostichus eleginoides)
+03028320,Merluza antártica (Dissostichus mawsoni)
+03028400,-- Robalos (Dicentrarchusspp.)
+03028500,-- Esparídeos (Sparidae)
+030289,-- Outros
+03028910,Pargo (Lutjanus purpureus)
+0302892,"Cherne-poveiro (Polyprion americanus), garoupas (Acanth"
+03028921,Cherne-poveiro (Polyprion americanus)
+03028922,Garoupas (Acanthistiusspp.)
+03028923,Esturjão (Acipenser baerii)
+03028924,Peixes-rei (Atherinaspp.)
+0302893,"Curimatãs (Prochilodusspp.), tilápias (Tilapiaspp., Sar"
+03028931,Curimatãs (Prochilodusspp.)
+03028932,"Tilápias (Tilapiaspp., Sarotherodonspp., Danakiliaspp.;"
+03028933,Surubins (Pseudoplatystomaspp.)
+03028934,Traíra (Hoplias malabaricus & H. cf. lacerdae)
+03028935,Piaus (Leporinusspp.)
+03028936,Tainhas (Mugilspp.)
+03028937,Pirarucu (Arapaima gigas)
+03028938,Pescadas (Cynoscionspp.)
+0302894,"Piramutaba (Brachyplatystoma vaillantii), dourada (Brac"
+03028941,Piramutaba (Brachyplatystoma vaillantii)
+03028942,Dourada (Brachyplatystoma flavicans)
+03028943,Pacu (Piaractus mesopotamicus)
+03028944,Tambaqui (Colossoma macropomum)
+03028945,Tambacu (híbrido de tambaqui e pacu)
+03028990,Outros
+03029,"- Fígados, ovas, gônadas masculinas, barbatanas, cabeça"
+030291,"-- FÍGADOS, OVAS E GÔNADAS MASCULINAS"
+03029110,OVAS DE TAINHAS (MUGILSPP.)
+03029190,OUTROS
+03029200,-- Barbatanas de tubarão
+03029900,-- Outros
+0303,"Peixes congelados, exceto os filés (filetes) de peixes"
+03031,"- Salmonídeos, exceto subprodutos comestíveis de peixes"
+03031100,-- Salmão-do-pacífico (salmão-vermelho) (Oncorhynchus n
+03031200,"-- Outros salmões-do-pacífico (Oncorhynchus gorbuscha,"
+03031300,-- Salmão-do-atlântico (Salmo salar) e salmão-do-danúbi
+03031400,"-- Trutas (Salmo trutta, Oncorhynchus mykiss, Oncorhync"
+03031900,-- Outros
+03032,"- Tilápias (Oreochromisspp.), bagres (peixes-gato*) (Pa"
+03032300,-- Tilápias (Oreochromisspp.)
+030324,"-- Bagres (Peixes-gato*) (Pangasiusspp., Silurusspp., C"
+03032410,Bagre americano (Ictalurus punctatus)
+03032490,Outros
+03032500,"-- Carpas (Cyprinusspp., Carassiusspp., Ctenopharyngodo"
+03032600,-- Enguias (Anguillaspp.)
+03032900,-- Outros
+03033,"- Peixes chatos (Pleuronectidae, Bothidae, Cynoglossida"
+03033100,-- Linguados-gigantes (Alabotes*) (Reinhardtius hippogl
+03033200,-- Solha (Pleuronectes platessa)
+03033300,-- Linguados (Soleaspp.)
+03033400,-- Pregado (Psetta maxima)
+03033900,-- Outros
+03034,"- Atuns (do gêneroThunnus), bonito-listrado (gaiado*) ("
+03034100,-- Albacora-branca (atum) (Thunnus alalunga)
+03034200,-- Albacora-laje (atum) (Thunnus albacares)
+03034300,-- Bonito-listrado (Gaiado*) (Katsuwonus pelamis)
+03034400,-- Albacora-bandolim (atum) (Thunnus obesus)
+03034500,"-- Atuns-azuis (atuns) (Thunnus thynnus, Thunnus orient"
+03034600,-- Atum-azul do sul (atum) (Thunnus maccoyii)
+03034900,-- Outros
+03035,"- Arenques (Clupea harengus, Clupea pallasii), anchovas"
+03035100,"-- Arenques (Clupea harengus, Clupea pallasii)"
+03035300,"-- Sardinhas (Sardina pilchardus, Sardinopsspp., Sardin"
+03035400,"-- Cavalinhas (Sardas e cavalas*) (Scomber scombrus, Sc"
+03035500,-- Carapaus (Trachurusspp.)
+03035600,-- Bijupirá (Cobia*) (Rachycentron canadum)
+03035700,-- Espadarte (Xiphias gladius)
+030359,-- Outros
+03035910,"Espadins, marlins, veleiros (Istiophoridae)"
+03035920,Anchoita (Engraulis anchoita)
+03035990,Outros
+03036,"- Peixes das famíliasBregmacerotidae,Euclichthyidae,Gad"
+03036300,"-- Bacalhau-do-atlântico (Gadus morhua), bacalhau-da-gr"
+03036400,-- Hadoque (Arinca*) (Melanogrammus aeglefinus)
+03036500,-- Saithe (Escamudo*) (Pollachius virens)
+03036600,"-- Merluzas (Pescadas*) e abróteas (Merlucciusspp.,Urop"
+03036700,-- Polaca-do-alasca (Escamudo-do-alasca*) (Theragra cha
+03036800,"-- Verdinhos (Micromesistius poutassou, Micromesistius"
+030369,-- Outros
+03036910,Merluza rosada (Macruronus magellanicus)
+03036990,Outros
+03038,"- Outros peixes, exceto subprodutos comestíveis de peix"
+030381,-- Cação e outros tubarões
+0303811,Tubarão-azul (Prionace glauca)
+03038111,Inteiro
+03038112,"Eviscerado, sem cabeça e sem barbatanas"
+03038113,"Em pedaços, com pele"
+03038114,"Em pedaços, sem pele"
+03038119,Outros
+03038190,Outros
+03038200,-- Raias (Rajidae)
+030383,-- Merluza negra e merluza antártica (Marlongas*) (Diss
+0303831,Merluza negra (Dissostichus eleginoides)
+03038311,"Evisceradas, sem cabeça e sem cauda"
+03038319,Outras
+0303832,Merluza antártica (Dissostichus mawsoni)
+03038321,"Evisceradas, sem cabeça e sem cauda"
+03038329,Outras
+03038400,-- Robalos (Dicentrarchusspp.)
+030389,-- Outros
+03038910,Corvina (Micropogonias furnieri)
+03038920,Pescadas (Cynoscionspp.)
+0303893,Pargo (Lutjanus purpureus) e peixe-sapo (Lophius gastro
+03038932,Pargo (Lutjanus purpureus)
+03038933,Peixe-sapo (Lophius gastrophysus)
+0303894,"Cherne-poveiro (Polyprion americanus), garoupas (Acanth"
+03038941,Cherne-poveiro (Polyprion americanus)
+03038942,Garoupas (Acanthistiusspp.)
+03038943,Tainhas (Mugilspp.)
+03038944,"Esturjões (Acipenser baerii, Acipenser gueldenstaedtii,"
+03038945,Peixes-rei (Atherinaspp.)
+03038946,Nototenias (Patagonotothenspp.)
+0303895,"Curimatãs (Prochilodusspp.), tilápias (Tilapiaspp., Sar"
+03038951,Curimatãs (Prochilodusspp.)
+03038952,"Tilápias (Tilapiaspp., Sarotherodonspp., Danakiliaspp.;"
+03038953,Surubins (Pseudoplatystomaspp.)
+03038954,Traíra (Hoplias malabaricus & H. cf. lacerdae)
+03038955,Piaus (Leporinusspp.)
+03038956,Pirarucu (Arapaima gigas)
+0303896,"Piramutaba (Brachyplatystoma vaillantii), dourada (Brac"
+03038961,Piramutaba (Brachyplatystoma vaillantii)
+03038962,Dourada (Brachyplatystoma flavicans)
+03038963,Pacu (Piaractus mesopotamicus)
+03038964,Tambaqui (Colossoma macropomum)
+03038965,Tambacu (híbrido de tambaqui e pacu)
+03038990,Outros
+03039,"- Fígados, ovas, gônadas masculinas, barbatanas, cabeça"
+030391,"-- FÍGADOS, OVAS E GÔNADAS MASCULINAS"
+03039110,OVAS DE TAINHAS (MUGILSPP.)
+03039190,OUTROS
+03039200,-- Barbatanas de tubarão
+030399,-- Outros
+03039910,Cabeças de Merluza negra (Dissostichus eleginoides)
+03039920,Cabeças de Merluza antártica (Dissostichus mawsoni)
+03039990,Outros
+0304,Filés (filetes) de peixes e outra carne de peixes (mesm
+03043,"- Filés (filetes) de tilápias (Oreochromisspp.), bagres"
+03043100,-- Tilápias (Oreochromisspp.)
+030432,"-- Bagres (Peixes-gato*) (Pangasiusspp., Silurusspp., C"
+03043210,Bagre americano (Ictalurus punctatus)
+03043290,Outros
+03043300,-- Perca-do-nilo (Lates niloticus)
+03043900,-- Outros
+03044,"- Filés (filetes) de outros peixes, frescos ou refriger"
+03044100,"-- Salmões-do-pacífico (Oncorhynchus nerka, Oncorhynchu"
+03044200,"-- Trutas (Salmo trutta, Oncorhynchus mykiss, Oncorhync"
+03044300,"-- Peixes chatos (Pleuronectidae, Bothidae, Cynoglossid"
+03044400,"-- Peixes das famíliasBregmacerotidae, Euclichthyidae,"
+03044500,-- Espadarte (Xiphias gladius)
+03044600,-- Merluza negra e merluza antártica (Marlongas*) (Diss
+03044700,-- Cação e outros tubarões
+03044800,-- Raias (Rajidae)
+030449,-- Outros
+03044910,Cherne-poveiro (Polyprion americanus)
+03044920,Garoupas (Acanthistiusspp.)
+03044990,Outros
+03045,"- Outros, frescos ou refrigerados:"
+03045100,"-- Tilápias (Oreochromisspp.), bagres (peixes-gato*) (P"
+03045200,-- Salmonídeos
+03045300,"-- Peixes das famíliasBregmacerotidae, Euclichthyidae,"
+03045400,-- Espadarte (Xiphias gladius)
+03045500,-- Merluza negra e merluza antártica (Marlongas*) (Diss
+03045600,-- Cação e outros tubarões
+03045700,-- Raias (Rajidae)
+03045900,-- Outros
+03046,"- Filés (filetes) de tilápias (Oreochromisspp.), bagres"
+03046100,-- Tilápias (Oreochromisspp.)
+030462,"-- Bagres (Peixes-gato*) (Pangasiusspp., Silurusspp., C"
+03046210,Bagre americano (Ictalurus punctatus)
+03046290,Outros
+03046300,-- Perca-do-nilo (Lates niloticus)
+03046900,-- Outros
+03047,- Filés (filetes) de peixes das famíliasBregmacerotidae
+03047100,"-- Bacalhau-do-atlântico (Gadus morhua), bacalhau-da-gr"
+03047200,-- Hadoque (Arinca*) (Melanogrammus aeglefinus)
+03047300,-- Saithe (Escamudo*) (Pollachius virens)
+03047400,"-- Merluzas (Pescadas*) e abróteas (Merlucciusspp., Uro"
+03047500,-- Polaca-do-alasca (Escamudo-do-alasca*) (Theragra cha
+03047900,-- Outros
+03048,"- Filés (filetes) de outros peixes, congelados:"
+03048100,"-- Salmões-do-pacífico (Oncorhynchus nerka, Oncorhynchu"
+03048200,"-- Trutas (Salmo trutta, Oncorhynchus mykiss, Oncorhync"
+03048300,"-- Peixes chatos (Pleuronectidae, Bothidae, Cynoglossid"
+03048400,-- Espadarte (Xiphias gladius)
+030485,-- Merluza negra e merluza antártica (Marlongas*) (Diss
+03048510,Merluza negra (Dissostichus eleginoides)
+03048520,Merluza antártica (Dissostichus mawsoni)
+03048600,"-- Arenques (Clupea harengus, Clupea pallasii)"
+03048700,"-- Atuns (do gêneroThunnus), bonito-listrado (gaiado*)"
+030488,"-- Cação e outros tubarões, raias (Rajidae)"
+03048810,Tubarão-azul (Prionace glauca)
+03048890,Outros
+030489,-- Outros
+03048910,Pargo (Lutjanus purpureus)
+03048920,Cherne-poveiro (Polyprion americanus)
+03048930,Garoupas (Acanthistiusspp.)
+03048990,Outros
+03049,"- Outros, congelados:"
+03049100,-- Espadarte (Xiphias gladius)
+030492,-- Merluza negra e merluza antártica (Marlongas*) (Diss
+0304921,Merluza negra (Dissostichus eleginoides)
+03049211,Bochechas (cheeks)
+03049212,Colares (collars)
+03049219,Outros
+0304922,Merluza antártica (Dissostichus mawsoni)
+03049221,Bochechas (cheeks)
+03049222,Colares (collars)
+03049229,Outros
+03049300,"-- Tilápias (Oreochromisspp.), bagres (peixes-gato*) (P"
+03049400,-- Polaca-do-alasca (Escamudo-do-alasca*) (Theragra cha
+03049500,"-- Peixes das famíliasBregmacerotidae, Euclichthyidae,"
+03049600,-- Cação e outros tubarões
+03049700,-- Raias (Rajidae)
+03049900,-- Outros
+0305,"Peixes secos, salgados ou em salmoura; peixes defumados"
+03051020,OVAS DE TAINHAS (MUGILSPP.)
+030520,"- FÍGADOS, OVAS E GÔNADAS.) MASCULINAS, DE PEIXES, SECO"
+03052010,OVAS DE TAINHAS (MUGILSPP.)
+03052090,OUTROS
+03053,"- Filés (filetes) de peixes, secos, salgados ou em salm"
+03053100,"-- Tilápias (Oreochromisspp.), bagres (peixes-gato*) (P"
+030532,"-- Peixes das famíliasBregmacerotidae, Euclichthyidae,"
+03053210,"Bacalhau-do-atlântico (Gadus morhua), bacalhau-da-groel"
+03053220,Saithe (Pollachius virens)
+03053230,Ling (Molva molva) e zarbo (Brosme brosme)
+03053290,Outros
+03053900,-- Outros
+03054,"- Peixes defumados (fumados), mesmo em filés (filetes),"
+03054100,"-- Salmões-do-pacífico (Oncorhynchus nerka, Oncorhynchu"
+03054200,"-- Arenques (Clupea harengus, Clupea pallasii)"
+03054300,"-- Trutas (Salmo trutta, Oncorhynchus mykiss, Oncorhync"
+03054400,"-- Tilápias (Oreochromisspp.), bagres (peixes-gato*) (P"
+030549,-- Outros
+03054910,"Bacalhau-do-atlântico (Gadus morhua), bacalhau-da-groel"
+03054920,"Saithe (Pollachius virens), ling (Molva molva) e zarbo"
+03054990,Outros
+03055,"- Peixes secos, exceto subprodutos comestíveis de peixe"
+03055100,"-- Bacalhau-do-atlântico (Gadus morhua), bacalhau-da-gr"
+03055200,"-- Tilápias (Oreochromisspp.), bagres (peixes-gato*) (P"
+030553,"-- Peixes das famíliasBregmacerotidae,Euclichthyidae,Ga"
+03055310,"Bacalhau polar (Boreogadus saida), saithe (Pollachius v"
+03055390,Outros
+03055400,"-- Arenques (Clupea harengus, Clupea pallasii), anchova"
+03055900,-- Outros
+03056,"- Peixes salgados, não secos nem defumados (fumados) e"
+03056100,"-- Arenques (Clupea harengus, Clupea pallasii)"
+03056200,"-- Bacalhau-do-atlântico (Gadus morhua), bacalhau-da-gr"
+03056300,-- Anchovas (Biqueirões*) (Engraulisspp.)
+03056400,"-- Tilápias (Oreochromisspp.), bagres (peixes-gato*) (P"
+030569,-- Outros
+03056910,"Saithe (Pollachius virens), ling (Molva molva) e zarbo"
+03056990,Outros
+03057,"- Barbatanas, cabeças, caudas, bexigas-natatórias e out"
+03057100,-- Barbatanas de tubarão
+03057200,"-- Cabeças, caudas e bexigas-natatórias, de peixes"
+03057900,-- Outros
+0306,"Crustáceos, mesmo com casca, vivos, frescos, refrigerad"
+03061,- Congelados:
+030611,"-- Lagostas (Palinurusspp., Panulirusspp., Jasusspp.)"
+03061110,Inteiras
+03061190,Outras
+03061200,-- Lavagantes (Homarusspp.)
+03061400,-- Caranguejos
+03061500,-- Lagosta norueguesa (Lagostim*) (Nephrops norvegicus)
+030616,"-- Camarões de água fria (Pandalusspp., Crangon crangon"
+03061610,Inteiros
+03061690,Outros
+030617,-- Outros camarões
+03061710,Inteiros
+03061790,Outros
+030619,-- Outros
+03061910,Krill (Euphausia superba)
+03061990,Outros
+03063,"- Vivos, frescos ou refrigerados:"
+03063100,"-- Lagostas (Palinurusspp.,Panulirusspp.,Jasusspp.)"
+03063200,-- Lavagantes (Homarusspp.)
+03063300,-- Caranguejos
+03063400,-- Lagosta norueguesa (Lagostim*) (Nephrops norvegicus)
+03063500,"-- Camarões de água fria (Pandalusspp.,Crangon crangon)"
+03063600,-- Outros camarões
+030639,-- Outros
+03063910,Lagosta de água doce (Cherax quadricarinatus)
+03063990,Outros
+03069,- Outros:
+03069100,"-- Lagostas (Palinurusspp.,Panulirusspp.,Jasusspp.)"
+03069200,-- Lavagantes (Homarusspp.)
+03069300,-- Caranguejos
+03069400,-- Lagosta norueguesa (Lagostim*) (Nephrops norvegicus)
+03069500,-- Camarões
+030699,-- Outros
+03069910,Lagosta de água doce (Cherax quadricarinatus)
+03069990,Outros
+0307,"Moluscos, mesmo com concha, vivos, frescos, refrigerado"
+03071,- Ostras:
+03071100,"-- Vivas, frescas ou refrigeradas"
+03071200,-- Congeladas
+03071900,-- Outras
+03072,- Vieiras e outros moluscos da famíliaPectinidae:
+03072100,"-- Vivos, frescos ou refrigerados"
+03072200,-- Congelados
+03072900,-- Outros
+03073,"- Mexilhões (Mytilusspp.,Pernaspp.):"
+03073100,"-- Vivos, frescos ou refrigerados"
+03073200,-- Congelados
+03073900,-- Outros
+03074,- Sépias (Chocos*) (Chocos e chopos*); lulas (potas e l
+03074200,"-- Vivas, frescas ou refrigeradas"
+030743,-- Congeladas
+03074310,Lulas
+03074320,Sépias
+03074900,-- Outras
+03075,- Polvos (Octopusspp.):
+03075100,"-- Vivos, frescos ou refrigerados"
+03075200,-- Congelados
+03075900,-- Outros
+03076000,"- Caracóis, exceto os do mar"
+03077,"- Amêijoas, berbigões e arcas (famíliasArcidae, Arctici"
+03077100,"-- Vivos, frescos ou refrigerados"
+03077200,-- Congelados
+03077900,-- Outros
+03078,- Abalones (Orelhas-do-mar*) (Haliotisspp.) e estrombos
+03078100,"-- Abalones (Orelhas-do-mar*) (Haliotisspp.) vivos, fre"
+03078200,"-- Estrombos (Strombusspp.) vivos, frescos ou refrigera"
+03078300,-- Abalones (Orelhas-do-mar*) (Haliotisspp.) congelados
+03078400,-- Estrombos (Strombusspp.) congelados
+03078700,-- Outros abalones (orelhas-do-mar*) (Haliotisspp.)
+03078800,-- Outros estrombos (Strombusspp.)
+03079,- Outros:
+03079100,"-- Vivos, frescos ou refrigerados"
+03079200,-- Congelados
+03079900,-- Outros
+0308,"Invertebrados aquáticos, exceto crustáceos e moluscos,"
+03081,"- Pepinos-do-mar (Stichopus japonicus, Holothuroidea):"
+03081100,"-- Vivos, frescos ou refrigerados"
+03081200,-- Congelados
+03081900,-- Outros
+03082,"- Ouriços-do-mar (Strongylocentrotusspp.,Paracentrotus"
+03082100,"-- Vivos, frescos ou refrigerados"
+03082200,-- Congelados
+03082900,-- Outros
+03083000,- Medusas (águas-vivas) (Rhopilemaspp.)
+03089000,- Outros
+0309,"Farinhas, pós epellets, de peixe, crustáceos, moluscos"
+03091000,- De peixe
+03099000,- Outros
+04,"Leite e laticínios; ovos de aves; mel natural; produtos comestíveis de origem animal, não especificados nem compreendidos noutros Capítulos."
+0401,"Leite e creme de leite (nata), não concentrados nem adi"
+040110,"- Com um teor, em peso, de matérias gordas, não superio"
+04011010,Leite UHT (Ultra High Temperature)
+04011090,Outros
+040120,"- Com um teor, em peso, de matérias gordas, superior a"
+04012010,Leite UHT (Ultra High Temperature)
+04012090,Outros
+040140,"- Com um teor, em peso, de matérias gordas, superior a"
+04014010,Leite
+0401402,Creme de leite (nata)
+04014021,UHT (Ultra High Temperature)
+04014029,Outros
+040150,"- Com um teor, em peso, de matérias gordas, superior a"
+04015010,Leite
+0401502,Creme de leite (nata)
+04015021,UHT (Ultra High Temperature)
+04015029,Outros
+0402,"Leite e creme de leite (nata), concentrados ou adiciona"
+040210,"- Em pó, grânulos ou outras formas sólidas, com um teor"
+04021010,"Com um teor de arsênio, chumbo ou cobre, considerados i"
+04021090,Outros
+04022,"- Em pó, grânulos ou outras formas sólidas, com um teor"
+040221,-- Sem adição de açúcar ou de outros edulcorantes
+04022110,Leite integral
+04022120,Leite parcialmente desnatado
+04022130,Creme de leite (nata)
+040229,-- Outros
+04022910,Leite integral
+04022920,Leite parcialmente desnatado
+04022930,Creme de leite (nata)
+04029,- Outros:
+04029100,-- Sem adição de açúcar ou de outros edulcorantes
+04029900,-- Outros
+0403,"Iogurte; leitelho, leite e creme de leite (nata) coalha"
+04032000,- Iogurte
+04039000,- Outros
+0404,"Soro de leite, mesmo concentrado ou adicionado de açúca"
+04041000,"- Soro de leite, modificado ou não, mesmo concentrado o"
+04049000,- Outros
+0405,Manteiga e outras matérias gordas provenientes do leite
+04051000,- Manteiga
+04052000,- Pasta de espalhar (barrar) de produtos provenientes d
+040590,- Outras
+04059010,Óleo butírico de manteiga (butter oil)
+04059090,Outras
+0406,Queijos e requeijão.
+040610,"- Queijos frescos (não curados), incluindo o queijo de"
+04061010,Mozarela
+04061090,Outros
+04062000,"- Queijos ralados ou em pó, de qualquer tipo"
+04063000,"- Queijos fundidos, exceto ralados ou em pó"
+04064000,- Queijos de pasta mofada (azul) e outros queijos que a
+040690,- Outros queijos
+04069010,"Com um teor de umidade inferior a 36,0 %, em peso (mass"
+04069020,"Com um teor de umidade igual ou superior a 36,0 % e inf"
+04069030,"Com um teor de umidade igual ou superior a 46,0 % e inf"
+04069090,Outros
+0407,"Ovos de aves, com casca, frescos, conservados ou cozido"
+04071,- Ovos fertilizados destinados à incubação:
+04071100,-- De aves da espécieGallus domesticus
+04071900,-- Outros
+04072,- Outros ovos frescos:
+04072100,-- De aves da espécieGallus domesticus
+04072900,-- Outros
+04079000,- Outros
+0408,"Ovos de aves, sem casca, e gemas de ovos, frescos, seco"
+04081,- Gemas de ovos:
+04081100,-- Secas
+04081900,-- Outras
+04089,- Outros:
+04089100,-- Secos
+04089900,-- Outros
+04090000,Mel natural.
+0410,"Insetos e outros produtos comestíveis de origem animal,"
+04101000,- Insetos
+04109000,- Outros
+05,"Outros produtos de origem animal, não especificados nem compreendidosnoutros Capítulos."
+05010000,"Cabelo em bruto, mesmo lavado ou desengordurado; desper"
+0502,Cerdas de porco ou de javali; pelos de texugo e outros
+050210,- Cerdas de porco ou de javali e seus desperdícios
+0502101,Cerdas de porco
+05021011,"Lavadas, alvejadas ou desengorduradas, mesmo tintas"
+05021019,Outras
+05021090,Outros
+050290,- Outros
+05029010,Pelos
+05029020,Desperdícios
+050400,"Tripas, bexigas e estômagos, de animais, inteiros ou em"
+0504001,Tripas
+05040011,De bovinos
+05040012,De ovinos
+05040013,De suínos
+05040019,Outras
+05040090,Outros
+0505,"Peles e outras partes de aves, com as suas penas ou pen"
+05051000,- Penas do tipo utilizado para enchimento ou estofament
+05059000,- Outros
+0506,"Ossos e núcleos córneos, em bruto, desengordurados ou s"
+05061000,- Osseína e ossos acidulados
+05069000,- Outros
+0507,"Marfim, carapaças de tartaruga, barbas, incluindo as fr"
+05071000,- Marfim; pó e desperdícios de marfim
+05079000,- Outros
+05080000,"Coral e matérias semelhantes, em bruto ou simplesmente"
+051000,"Âmbar-cinzento, castóreo, algália e almíscar; cantárida"
+05100010,Pâncreas de bovino
+05100090,Outros
+0511,"Produtos de origem animal, não especificados nem compre"
+05111000,- Sêmen de bovino
+05119,- Outros:
+051191,"-- Produtos de peixes ou crustáceos, moluscos ou de out"
+05119110,"Ovas de peixe fecundadas, para reprodução"
+05119190,Outros
+051199,-- Outros
+05119910,Embriões de animais
+05119920,Sêmen animal
+05119930,Ovos de bicho-da-seda
+0511999,Outros
+05119991,"Crinas e seus desperdícios, mesmo em mantas, mesmo com"
+05119999,Outros
+06,Plantas vivas e produtos de floricultura.
+0601,"Bulbos, tubérculos, raízes tuberosas, cormos, coroas e"
+06011000,"- Bulbos, tubérculos, raízes tuberosas, cormos, coroas"
+06012000,"- Bulbos, tubérculos, raízes tuberosas, cormos, coroas"
+0602,"Outras plantas vivas (incluindo as suas raízes), estaca"
+06021000,- Estacas não enraizadas e enxertos
+06022000,"- Árvores, arbustos e silvados, de fruta, enxertados ou"
+06023000,"- Rododendros e azaleias, enxertados ou não"
+06024000,"- Roseiras, enxertadas ou não"
+060290,- Outros
+06029010,Micélios de cogumelos
+0602902,Mudas de plantas ornamentais
+06029021,De orquídea
+06029029,Outras
+0602908,Outras mudas
+06029081,De cana-de-açúcar
+06029082,De videira
+06029083,De café
+06029089,Outras
+06029090,Outras
+0603,"Flores e botões de flores, cortados, para buquês (ramos"
+06031,- Frescos:
+06031100,-- Rosas
+06031200,-- Cravos
+06031300,-- Orquídeas
+06031400,-- Crisântemos
+06031500,-- Lírios (Liliumspp.)
+06031900,-- Outros
+06039000,- Outros
+0604,"Folhagem, folhas, ramos e outras partes de plantas, sem"
+06042000,- Frescos
+06049000,- Outros
+07,"Produtos hortícolas, plantas, raízes e tubérculos, comestíveis."
+0701,"Batatas, frescas ou refrigeradas."
+07011000,- Batata-semente
+07019000,- Outras
+07020000,"Tomates, frescos ou refrigerados."
+0703,"Cebolas, chalotas, alhos, alhos-porros e outros produto"
+070310,- Cebolas e chalotas
+0703101,Cebolas
+07031011,Para semeadura (sementeira)
+07031019,Outras
+0703102,Chalotas
+07031021,Para semeadura (sementeira)
+07031029,Outras
+070320,- Alhos
+07032010,Para semeadura (sementeira)
+07032090,Outros
+070390,- Alhos-porros e outros produtos hortícolas aliáceos
+07039010,Para semeadura (sementeira)
+07039090,Outros
+0704,"Couves, couve-flor, repolho ou couve frisada, couve-ráb"
+07041000,- Couve-flor e brócolis
+07042000,- Couve-de-bruxelas
+07049000,- Outros
+0705,"Alface (Lactuca sativa) e chicórias (Cichoriumspp.), fr"
+07051,- Alface:
+07051100,-- Repolhuda
+07051900,-- Outra
+07052,- Chicórias:
+07052100,-- Endívia (Cichorium intybusvar.foliosum)
+07052900,-- Outras
+0706,"Cenouras, nabos, beterrabas para salada, cercefi, aipo-"
+07061000,- Cenouras e nabos
+07069000,- Outros
+07070000,"Pepinos e pepininhos (cornichons), frescos ou refrigera"
+0708,"Legumes de vagem, mesmo com vagem, frescos ou refrigera"
+07081000,- Ervilhas (Pisum sativum)
+07082000,"- Feijões (Vignaspp.,Phaseolusspp.)"
+07089000,- Outros legumes de vagem
+0709,"Outros produtos hortícolas, frescos ou refrigerados."
+07092000,- Aspargos
+07093000,- Berinjelas
+07094000,"- Aipo, exceto aipo-rábano"
+07095,- Cogumelos e trufas:
+07095100,-- Cogumelos do gêneroAgaricus
+07095200,-- Cogumelos do gêneroBoletus
+07095300,-- Cogumelos do gêneroCantharellus
+07095400,-- Shitake (Lentinus edodes)
+07095500,"-- Matsutake (Tricholoma matsutake,Tricholoma magnivela"
+07095600,-- Trufas (Tuberspp.)
+07095900,-- Outros
+07096000,- Pimentões (pimentos) e pimentas do gêneroCapsicumou d
+07097000,"- Espinafres, espinafres-da-nova-zelândia e espinafres"
+07099,- Outros:
+07099100,-- Alcachofras
+07099200,-- Azeitonas
+07099300,"-- Abóboras, abobrinhas (curgetes*) e cabaças (Cucurbit"
+070999,-- Outros
+0709991,Milho doce
+07099911,Para semeadura (sementeira)
+07099919,Outros
+07099990,Outros
+0710,"Produtos hortícolas, não cozidos ou cozidos em água ou"
+07101000,- Batatas
+07102,"- Legumes de vagem, mesmo com vagem:"
+07102100,-- Ervilhas (Pisum sativum)
+07102200,"-- Feijões (Vignaspp.,Phaseolusspp.)"
+07102900,-- Outros
+07103000,"- Espinafres, espinafres-da-nova-zelândia e espinafres"
+07104000,- Milho doce
+07108000,- Outros produtos hortícolas
+07109000,- Misturas de produtos hortícolas
+0711,"Produtos hortícolas conservados transitoriamente, mas i"
+071120,- Azeitonas
+07112010,Com água salgada
+07112020,Com água sulfurada ou adicionada de outras substâncias
+07112090,Outras
+07114000,- Pepinos e pepininhos (cornichons)
+07115,- Cogumelos e trufas:
+07115100,-- Cogumelos do gêneroAgaricus
+07115900,-- Outros
+07119000,- Outros produtos hortícolas; misturas de produtos hort
+0712,"Produtos hortícolas secos, mesmo cortados em pedaços ou"
+07122000,- Cebolas
+07123,"- Cogumelos, orelhas-de-judas (Auriculariaspp.), tremel"
+07123100,-- Cogumelos do gêneroAgaricus
+07123200,-- Orelhas-de-judas (Auriculariaspp.)
+07123300,-- Tremelas (Tremellaspp.)
+07123400,-- Shitake (Lentinus edodes)
+07123900,-- Outros
+071290,- Outros produtos hortícolas; misturas de produtos hort
+07129020,ALHO
+07129090,Outros
+0713,"Legumes de vagem, secos, em grão, mesmo pelados ou part"
+071310,- Ervilhas (Pisum sativum)
+07131010,Para semeadura (sementeira)
+07131090,Outras
+071320,- Grão-de-bico
+07132010,Para semeadura (sementeira)
+07132090,Outros
+07133,"- Feijões (Vignaspp.,Phaseolusspp.):"
+071331,-- Feijões das espéciesVigna mungo(L.)HepperouVigna rad
+07133110,Para semeadura (sementeira)
+07133190,Outros
+071332,-- Feijão-adzuki (PhaseolusouVigna angularis)
+07133210,Para semeadura (sementeira)
+07133290,Outros
+071333,-- Feijão comum (Phaseolus vulgaris)
+0713331,Preto
+07133311,Para semeadura (sementeira)
+07133319,Outros
+0713332,Branco
+07133321,Para semeadura (sementeira)
+07133329,Outros
+0713339,Outros
+07133391,Para semeadura (sementeira)
+07133399,Outros
+071334,-- Feijão-bambara (Vigna subterraneaouVoandzeia subterr
+07133410,Para semeadura (sementeira)
+07133490,Outros
+071335,-- Feijão-fradinho (Vigna unguiculata)
+07133510,Para semeadura (sementeira)
+07133590,Outros
+071339,-- Outros
+07133910,Para semeadura (sementeira)
+07133990,Outros
+071340,- Lentilhas
+07134010,Para semeadura (sementeira)
+07134090,Outras
+071350,- Favas (Vicia fabavar.major) e fava forrageira (Vicia
+07135010,Para semeadura (sementeira)
+07135090,Outras
+071360,- Feijão-guando (ervilha-de-angola) (Cajanus cajan)
+07136010,Para semeadura (sementeira)
+07136090,Outros
+071390,- Outros
+07139010,Para semeadura (sementeira)
+07139090,Outros
+0714,"Raízes de mandioca, de araruta e de salepo, tupinambos,"
+07141000,- Raízes de mandioca
+07142000,- Batatas-doces
+07143000,- Inhames (Dioscoreaspp.)
+07144000,- Taros (inhames-brancos) (Colocasiaspp.)
+07145000,- Mangaritos (Orelhas-de-elefante*) (Xanthosomaspp.)
+07149000,- Outros
+08,Fruta; cascas de citros (citrinos) e de melões.
+0801,"Cocos, castanha-do-brasil (castanha-do-pará) e castanha"
