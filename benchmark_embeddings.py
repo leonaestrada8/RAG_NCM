@@ -89,27 +89,48 @@ class EmbeddingBenchmark:
         print(f"\nNCMs carregados: {len(self.ncm_data)}")
         print(f"Atributos carregados: {len(self.atributos_data.get('listaNcm', []))}")
     
-    def encode_batch(self, embedder, texts, batch_size=32):
-        """Vetoriza lista de textos em lotes com cache"""
+    def encode_batch(self, embedder, texts, batch_size=32, model_name=None):
+        """Vetoriza lista de textos em lotes com cache
+
+        Args:
+            embedder: Modelo de embedding (SentenceTransformer)
+            texts: Lista de textos para vetorizar
+            batch_size: Tamanho do lote
+            model_name: Nome do modelo (opcional - será detectado se não fornecido)
+        """
         if self.use_cache and self.cache:
-            # Usa cache para acelerar - pega nome correto do modelo
-            if hasattr(embedder, '_model_card_data') and hasattr(embedder._model_card_data, 'model_name'):
-                model_name = embedder._model_card_data.model_name
-            elif hasattr(embedder, 'model_card_data') and hasattr(embedder.model_card_data, 'model_name'):
-                model_name = embedder.model_card_data.model_name
-            elif hasattr(embedder, '_model_name'):
-                model_name = embedder._model_name
-            else:
-                # Fallback: usa nome da pasta do modelo se disponível
-                import os
-                if hasattr(embedder, '_modules') and '0' in embedder._modules:
+            # Se model_name não foi fornecido, tenta detectar
+            if not model_name:
+                # Tentativa 1: _model_card_data
+                if hasattr(embedder, '_model_card_data') and embedder._model_card_data:
+                    if hasattr(embedder._model_card_data, 'model_name'):
+                        model_name = embedder._model_card_data.model_name
+
+                # Tentativa 2: model_card_data
+                if not model_name and hasattr(embedder, 'model_card_data') and embedder.model_card_data:
+                    if hasattr(embedder.model_card_data, 'model_name'):
+                        model_name = embedder.model_card_data.model_name
+
+                # Tentativa 3: _model_name
+                if not model_name and hasattr(embedder, '_model_name'):
+                    model_name = embedder._model_name
+
+                # Tentativa 4: modules[0].auto_model.name_or_path
+                if not model_name and hasattr(embedder, '_modules') and '0' in embedder._modules:
                     transformer = embedder._modules['0']
-                    if hasattr(transformer, 'auto_model'):
+                    if hasattr(transformer, 'auto_model') and hasattr(transformer.auto_model, 'name_or_path'):
                         model_name = transformer.auto_model.name_or_path
-                    else:
-                        model_name = "unknown_model"
-                else:
+
+                # Tentativa 5: _model_config_dict
+                if not model_name and hasattr(embedder, '_model_config_dict'):
+                    config = embedder._model_config_dict
+                    if isinstance(config, dict) and 'model_name' in config:
+                        model_name = config['model_name']
+
+                # Fallback final
+                if not model_name:
                     model_name = "unknown_model"
+                    print(f"⚠️  Não foi possível detectar nome do modelo, usando '{model_name}'")
 
             # Debug: mostra nome do modelo usado no cache
             if len(texts) > 1000:  # Só mostra para operações grandes
@@ -259,14 +280,23 @@ class EmbeddingBenchmark:
         
         return documents, metadatas, ids
     
-    def index_documents(self, collection, embedder, documents, metadatas, ids):
-        """Indexa documentos no banco vetorial"""
+    def index_documents(self, collection, embedder, documents, metadatas, ids, model_name=None):
+        """Indexa documentos no banco vetorial
+
+        Args:
+            collection: ChromaDB collection
+            embedder: Modelo de embedding
+            documents: Lista de documentos
+            metadatas: Lista de metadados
+            ids: Lista de IDs
+            model_name: Nome do modelo (opcional)
+        """
         if not documents:
             print("Nenhum documento para indexar")
             return
-        
+
         total = len(documents)
-        vectors = self.encode_batch(embedder, documents)
+        vectors = self.encode_batch(embedder, documents, model_name=model_name)
         
         print(f"\nIndexando {total} documentos em lotes de {BATCH_SIZE}...")
         
@@ -479,10 +509,10 @@ class EmbeddingBenchmark:
             attr_docs, attr_metas, attr_ids = self.prepare_atributos_documents()
             
             # Indexa NCMs
-            self.index_documents(collection, embedder, ncm_docs, ncm_metas, ncm_ids)
-            
+            self.index_documents(collection, embedder, ncm_docs, ncm_metas, ncm_ids, model_name=model_name)
+
             # Indexa atributos
-            self.index_documents(collection, embedder, attr_docs, attr_metas, attr_ids)
+            self.index_documents(collection, embedder, attr_docs, attr_metas, attr_ids, model_name=model_name)
             
             # Executa diagnosticos
             stats = self.run_diagnostics(collection, embedder, model_name)
@@ -546,8 +576,13 @@ class EmbeddingBenchmark:
         print("\n" + "="*70)
         print("RANKING POR SCORE GERAL")
         print("="*70)
-        
-        df_valid = df[~df['model_name'].isin(df[df.get('error', '').notna()]['model_name'])]
+
+        # Filtra modelos válidos (sem erro)
+        if 'error' in df.columns:
+            df_valid = df[df['error'].isna()]
+        else:
+            df_valid = df
+
         if not df_valid.empty:
             df_sorted = df_valid.sort_values('score', ascending=False)
             
