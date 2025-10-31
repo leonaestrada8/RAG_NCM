@@ -182,7 +182,18 @@ Para mais informações: README.md ou PLANO_ACAO.md
         help='Pula confirmação (auto-confirma execução)'
     )
 
+    parser.add_argument(
+        '--no-normalize',
+        action='store_true',
+        help='Desabilita normalização de textos (teste A/B)'
+    )
+
     args = parser.parse_args()
+
+    # Configura normalização via variável de ambiente
+    if args.no_normalize:
+        os.environ['DISABLE_NORMALIZATION'] = '1'
+        print("\n⚠️  MODO TESTE: Normalização DESABILITADA\n")
 
     # Banner
     print_banner()
