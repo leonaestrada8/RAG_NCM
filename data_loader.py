@@ -276,13 +276,20 @@ def create_enriched_ncm_text(row, hierarchy, atributos_dict):
         num_attrs = len(atributos_dict[codigo_norm])
         texto += f"\nAtributos: {num_attrs} cadastrados"
 
-    # Aplica normalização avançada para melhorar embeddings
-    # Nota: Mantém estrutura multi-linha mas normaliza cada parte
-    lines = texto.split('\n')
-    normalized_lines = [normalize_text_advanced(line, keep_stopwords_if_short=True) for line in lines]
-    texto_normalizado = ' | '.join([l for l in normalized_lines if l])
+    # Aplica normalização avançada para melhorar embeddings (OPCIONAL)
+    # Pode ser desabilitada para testes A/B via variável de ambiente
+    import os
+    USE_NORMALIZATION = os.environ.get('DISABLE_NORMALIZATION', '0') != '1'
 
-    return texto_normalizado
+    if USE_NORMALIZATION:
+        # Normaliza cada linha
+        lines = texto.split('\n')
+        normalized_lines = [normalize_text_advanced(line, keep_stopwords_if_short=True) for line in lines]
+        texto_normalizado = ' | '.join([l for l in normalized_lines if l])
+        return texto_normalizado
+    else:
+        # Retorna SEM normalização (para testes A/B)
+        return texto
 
 
 def create_atributo_description(ncm_code, atributo):

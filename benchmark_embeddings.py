@@ -44,6 +44,9 @@ MODELS_TO_TEST = [
     'BAAI/bge-m3',                             # SOTA 2024 - excelente multilíngue
     'BAAI/bge-large-en-v1.5',                  # Alternativa BGE large
 
+    # 5º modelo: Pequeno e rápido para comparação
+    'intfloat/multilingual-e5-small',          # Versão small - rápido (384 dim)
+
     # Para comparação de velocidade (opcional)
     # 'sentence-transformers/all-MiniLM-L6-v2', # Rápido mas não multilíngue (50.1)
 ]
@@ -454,9 +457,21 @@ class EmbeddingBenchmark:
             client = chromadb.PersistentClient(path=db_path)
             collection = client.create_collection(collection_name)
 
-            # Carrega modelo
+            # Carrega modelo (com progress bar se possível)
             print(f"\nCarregando modelo: {model_name}")
-            embedder = SentenceTransformer(model_name)
+            print(f"  (Download pode levar alguns minutos se modelo for grande...)")
+
+            # Configura progress bar para downloads do HuggingFace
+            import warnings
+            warnings.filterwarnings('ignore', message='.*symlinks.*')
+
+            try:
+                # Tenta com progress bar
+                embedder = SentenceTransformer(model_name, show_progress_bar=True)
+            except TypeError:
+                # Fallback se versão não suporta show_progress_bar
+                embedder = SentenceTransformer(model_name)
+
             print(f"✓ Modelo carregado com sucesso")
             
             # Prepara documentos
