@@ -15,8 +15,8 @@ from sentence_transformers import SentenceTransformer
 sys.path.insert(0, '/mnt/project')
 
 from data_loader import (
-    load_ncm_data, 
-    load_atributos_data, 
+    load_ncm_data,
+    load_atributos_data,
     build_ncm_hierarchy,
     create_atributos_dict,
     create_enriched_ncm_text,
@@ -25,26 +25,52 @@ from data_loader import (
 from config import BATCH_SIZE
 from tqdm import tqdm
 
+# Importa melhorias
+from embedding_cache import EmbeddingCache, encode_with_cache
+from ground_truth_cases import TEST_CASES
 
-# Lista de modelos para testar
+
+# Lista de modelos para testar - AJUSTADA APÓS BENCHMARK INICIAL
+# Baseado nos resultados: e5-base venceu com 75.6/100
+# Testando modelos promissores e SOTA 2024
 MODELS_TO_TEST = [
-    'sentence-transformers/all-MiniLM-L6-v2',
-    'sentence-transformers/paraphrase-multilingual-mpnet-base-v2',
-    'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2',
-    'intfloat/multilingual-e5-base',
-    'sentence-transformers/paraphrase-multilingual-MiniLM-L6-v2'
+    # Vencedor do benchmark inicial
+    'intfloat/multilingual-e5-base',           # Score: 75.6 - Baseline atual
+
+    # Evolução do vencedor (maior e melhor)
+    'intfloat/multilingual-e5-large',          # Versão large - espera-se +5-8 pontos
+
+    # Modelos SOTA 2024 multilíngue
+    'BAAI/bge-m3',                             # SOTA 2024 - excelente multilíngue
+    'BAAI/bge-large-en-v1.5',                  # Alternativa BGE large
+
+    # Para comparação de velocidade (opcional)
+    # 'sentence-transformers/all-MiniLM-L6-v2', # Rápido mas não multilíngue (50.1)
 ]
+
+# Modelos REMOVIDOS (baixa performance ou erros):
+# ❌ 'sentence-transformers/paraphrase-multilingual-mpnet-base-v2'  # 54.0 - muito lento (127 min)
+# ❌ 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'  # 36.5 - performance ruim
+# ❌ 'sentence-transformers/paraphrase-multilingual-MiniLM-L6-v2'   # Erro 401 - modelo não existe
 
 
 class EmbeddingBenchmark:
     """Classe para benchmark de modelos de embedding"""
-    
-    def __init__(self):
+
+    def __init__(self, use_cache=True):
         self.results = []
         self.ncm_data = None
         self.atributos_data = None
         self.hierarchy = None
         self.atributos_dict = None
+
+        # Cache de embeddings para acelerar re-execuções
+        self.use_cache = use_cache
+        self.cache = EmbeddingCache() if use_cache else None
+
+        if self.use_cache:
+            print(f"✓ Cache de embeddings ATIVADO")
+            self.cache.print_stats()
         
     def load_data(self):
         """Carrega dados NCM e atributos uma vez"""
@@ -61,17 +87,60 @@ class EmbeddingBenchmark:
         print(f"Atributos carregados: {len(self.atributos_data.get('listaNcm', []))}")
     
     def encode_batch(self, embedder, texts, batch_size=32):
-        """Vetoriza lista de textos em lotes"""
-        all_embeddings = []
-        
-        with tqdm(total=len(texts), desc="Embeddings", unit="doc") as pbar:
-            for i in range(0, len(texts), batch_size):
-                batch = texts[i:i+batch_size]
-                embeddings = embedder.encode(batch)
-                all_embeddings.extend(embeddings)
-                pbar.update(len(batch))
-        
-        return [emb.astype(float).tolist() for emb in all_embeddings]
+        """Vetoriza lista de textos em lotes com cache"""
+        if self.use_cache and self.cache:
+            # Usa cache para acelerar
+            model_name = embedder._model_card_data.model_name if hasattr(embedder, '_model_card_data') else str(type(embedder).__name__)
+
+            # Tenta recuperar do cache
+            cached_embeddings, missing_indices = self.cache.get_batch(texts, model_name)
+
+            # Se todos estão em cache, retorna direto
+            if not missing_indices:
+                print(f"✓ Todos os {len(texts)} embeddings recuperados do cache")
+                return [emb.tolist() for emb in cached_embeddings]
+
+            print(f"Cache: {len(texts) - len(missing_indices)}/{len(texts)} encontrados, calculando {len(missing_indices)} faltantes...")
+
+            # Calcula apenas os faltantes
+            missing_texts = [texts[i] for i in missing_indices]
+            new_embeddings = []
+
+            with tqdm(total=len(missing_texts), desc="Embeddings (novos)", unit="doc") as pbar:
+                for i in range(0, len(missing_texts), batch_size):
+                    batch = missing_texts[i:i+batch_size]
+                    embeddings = embedder.encode(batch)
+                    new_embeddings.extend(embeddings)
+                    pbar.update(len(batch))
+
+            # Atualiza cache com novos embeddings
+            for idx, emb_idx in enumerate(missing_indices):
+                self.cache.set(texts[emb_idx], model_name, new_embeddings[idx])
+
+            # Mescla resultados
+            result = []
+            new_emb_idx = 0
+            for i, cached_emb in enumerate(cached_embeddings):
+                if cached_emb is None:
+                    result.append(new_embeddings[new_emb_idx].astype(float).tolist())
+                    new_emb_idx += 1
+                else:
+                    result.append(cached_emb.tolist())
+
+            return result
+
+        else:
+            # Sem cache - modo original
+            all_embeddings = []
+
+            with tqdm(total=len(texts), desc="Embeddings", unit="doc") as pbar:
+                for i in range(0, len(texts), batch_size):
+                    batch = texts[i:i+batch_size]
+                    embeddings = embedder.encode(batch)
+                    all_embeddings.extend(embeddings)
+                    pbar.update(len(batch))
+
+            return [emb.astype(float).tolist() for emb in all_embeddings]
     
     def prepare_ncm_documents(self, embedder):
         """Prepara documentos NCM para indexacao"""
@@ -238,17 +307,9 @@ class EmbeddingBenchmark:
             print(f"  Min: {stats['min_distance']:.4f}")
             print(f"  Max: {stats['max_distance']:.4f}")
         
-        # Teste com ground truth
-        test_cases = [
-            ("cafe torrado em graos", "0901"),
-            ("soja em graos", "1201"),
-            ("carne bovina congelada", "0202"),
-            ("telefone celular", "8517"),
-            ("computador portatil", "8471"),
-            ("acucar cristal", "1701"),
-            ("leite em po", "0402"),
-            ("arroz em graos", "1006"),
-        ]
+        # Teste com ground truth expandido (90+ casos)
+        test_cases = TEST_CASES
+        print(f"\nTestando com {len(test_cases)} casos de ground truth...")
         
         hits = 0
         top1_hits = 0
@@ -328,31 +389,55 @@ class EmbeddingBenchmark:
         
         return stats
     
+    def validate_model(self, model_name):
+        """Valida se modelo existe antes de testar"""
+        try:
+            from huggingface_hub import model_info
+            print(f"Validando modelo {model_name}...")
+            model_info(model_name)
+            print(f"✓ Modelo {model_name} validado com sucesso")
+            return True
+        except Exception as e:
+            print(f"✗ ERRO: Modelo {model_name} não encontrado ou inacessível: {e}")
+            return False
+
     def test_model(self, model_name):
         """Testa um modelo especifico"""
         print("\n" + "#"*70)
         print(f"# TESTANDO MODELO: {model_name}")
         print("#"*70)
-        
+
         start_time = time.time()
-        
+
+        # Valida modelo antes de testar
+        if not self.validate_model(model_name):
+            print(f"\n⚠️  PULANDO modelo {model_name} - validação falhou")
+            self.results.append({
+                'model_name': model_name,
+                'error': 'Modelo não encontrado ou inacessível',
+                'elapsed_time': time.time() - start_time,
+                'status': 'skipped'
+            })
+            return
+
         # Cria banco de dados especifico
         db_path = f"benchmark_db_{model_name.replace('/', '_').replace('-', '_')}"
         collection_name = "ncm_atributos"
-        
+
         try:
             # Remove banco anterior se existir
             if os.path.exists(db_path):
                 import shutil
                 shutil.rmtree(db_path)
-            
+
             # Cria novo cliente e colecao
             client = chromadb.PersistentClient(path=db_path)
             collection = client.create_collection(collection_name)
-            
+
             # Carrega modelo
             print(f"\nCarregando modelo: {model_name}")
             embedder = SentenceTransformer(model_name)
+            print(f"✓ Modelo carregado com sucesso")
             
             # Prepara documentos
             ncm_docs, ncm_metas, ncm_ids = self.prepare_ncm_documents(embedder)
@@ -404,11 +489,19 @@ class EmbeddingBenchmark:
         
         for idx, row in df.iterrows():
             print(f"\n{idx+1}. {row['model_name']}")
-            if 'error' in row:
-                print(f"   ERRO: {row['error']}")
+            if 'error' in row and pd.notna(row.get('error')):
+                status = row.get('status', 'error')
+                print(f"   ❌ STATUS: {status.upper()}")
+                print(f"   Motivo: {row['error']}")
+                print(f"   Tempo: {row['elapsed_time']:.1f}s")
                 continue
-            
-            print(f"   Score Geral: {row['score']:.1f}/100")
+
+            # Verifica se tem dados válidos
+            if pd.isna(row.get('score')):
+                print(f"   ⚠️  Dados incompletos")
+                continue
+
+            print(f"   ✓ Score Geral: {row['score']:.1f}/100")
             print(f"   Acuracia Top-1: {row['accuracy_top1']:.1f}%")
             print(f"   Acuracia Top-5: {row['accuracy_top5']:.1f}%")
             print(f"   Distancia Media: {row['mean_distance']:.4f}")
@@ -488,6 +581,134 @@ class EmbeddingBenchmark:
         print("\n" + "#"*70)
         print("# FIM DO RELATORIO")
         print("#"*70)
+
+        # Salva configuração ideal
+        self.save_best_config(df_valid, df_sorted)
+
+    def save_best_config(self, df_valid, df_sorted):
+        """Salva configuração do melhor modelo para uso em produção"""
+        if df_sorted.empty:
+            print("\n⚠️  Nenhum modelo válido para salvar configuração")
+            return
+
+        best_model = df_sorted.iloc[0]
+
+        config = {
+            "model": {
+                "name": best_model['model_name'],
+                "score": float(best_model['score']),
+                "accuracy_top1": float(best_model['accuracy_top1']),
+                "accuracy_top5": float(best_model['accuracy_top5']),
+                "mean_distance": float(best_model['mean_distance']),
+                "elapsed_time": float(best_model['elapsed_time']),
+                "timestamp": best_model['timestamp']
+            },
+            "settings": {
+                "use_cache": True,
+                "use_reranking": best_model['accuracy_top1'] < 75,  # Ativa reranking se Top-1 < 75%
+                "batch_size": 32,
+                "top_k_initial": 15,  # Para reranking
+                "top_k_final": 5
+            },
+            "performance": {
+                "quality_score": float(best_model['score']),
+                "speed_score": 100 - min(100, (best_model['elapsed_time'] / 3600) * 100),
+                "recommended_for_production": best_model['score'] >= 80
+            },
+            "alternatives": []
+        }
+
+        # Adiciona alternativas (top 3)
+        for idx in range(1, min(3, len(df_sorted))):
+            alt = df_sorted.iloc[idx]
+            config["alternatives"].append({
+                "name": alt['model_name'],
+                "score": float(alt['score']),
+                "reason": self._get_alternative_reason(best_model, alt)
+            })
+
+        # Salva em arquivo
+        config_file = "best_model_config.json"
+        with open(config_file, 'w', encoding='utf-8') as f:
+            json.dump(config, f, indent=2, ensure_ascii=False)
+
+        print(f"\n{'='*70}")
+        print("CONFIGURAÇÃO IDEAL SALVA")
+        print(f"{'='*70}")
+        print(f"Arquivo: {config_file}")
+        print(f"Modelo recomendado: {config['model']['name']}")
+        print(f"Score: {config['model']['score']:.1f}/100")
+        print(f"Reranking recomendado: {'SIM' if config['settings']['use_reranking'] else 'NÃO'}")
+        print(f"Pronto para produção: {'SIM ✓' if config['performance']['recommended_for_production'] else 'NÃO (score < 80)'}")
+
+        # Cria arquivo Python para import direto
+        self._create_config_module(config)
+
+    def _get_alternative_reason(self, best, alt):
+        """Gera razão para considerar modelo alternativo"""
+        if alt['elapsed_time'] < best['elapsed_time'] * 0.7:
+            return f"Mais rápido ({alt['elapsed_time']/60:.1f} min vs {best['elapsed_time']/60:.1f} min)"
+        elif alt['accuracy_top1'] > best['accuracy_top1']:
+            return f"Melhor Top-1 ({alt['accuracy_top1']:.1f}% vs {best['accuracy_top1']:.1f}%)"
+        else:
+            return f"Alternativa viável (score {alt['score']:.1f})"
+
+    def _create_config_module(self, config):
+        """Cria módulo Python com configuração para import"""
+        module_content = f'''# best_model_config.py
+# Configuração automática gerada pelo benchmark
+# Data: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+
+# Modelo recomendado
+BEST_MODEL_NAME = "{config['model']['name']}"
+BEST_MODEL_SCORE = {config['model']['score']}
+
+# Configurações recomendadas
+USE_CACHE = {config['settings']['use_cache']}
+USE_RERANKING = {config['settings']['use_reranking']}
+BATCH_SIZE = {config['settings']['batch_size']}
+TOP_K_INITIAL = {config['settings']['top_k_initial']}
+TOP_K_FINAL = {config['settings']['top_k_final']}
+
+# Métricas de performance
+ACCURACY_TOP1 = {config['model']['accuracy_top1']}
+ACCURACY_TOP5 = {config['model']['accuracy_top5']}
+MEAN_DISTANCE = {config['model']['mean_distance']}
+INDEXING_TIME_SECONDS = {config['model']['elapsed_time']}
+
+# Status de produção
+RECOMMENDED_FOR_PRODUCTION = {config['performance']['recommended_for_production']}
+
+# Função helper para carregar modelo
+def load_best_model():
+    """Carrega o melhor modelo do benchmark"""
+    from sentence_transformers import SentenceTransformer
+    print(f"Carregando modelo recomendado: {{BEST_MODEL_NAME}}")
+    print(f"Score do benchmark: {{BEST_MODEL_SCORE:.1f}}/100")
+    print(f"Acurácia Top-5: {{ACCURACY_TOP5:.1f}}%")
+    return SentenceTransformer(BEST_MODEL_NAME)
+
+# Alternativas (caso o modelo principal não esteja disponível)
+ALTERNATIVE_MODELS = {config['alternatives']}
+
+if __name__ == "__main__":
+    print("="*60)
+    print("CONFIGURAÇÃO DO MELHOR MODELO")
+    print("="*60)
+    print(f"Modelo: {{BEST_MODEL_NAME}}")
+    print(f"Score: {{BEST_MODEL_SCORE:.1f}}/100")
+    print(f"Top-1: {{ACCURACY_TOP1:.1f}}%")
+    print(f"Top-5: {{ACCURACY_TOP5:.1f}}%")
+    print(f"Reranking: {{'Recomendado' if USE_RERANKING else 'Não necessário'}}")
+    print(f"Produção: {{'Pronto ✓' if RECOMMENDED_FOR_PRODUCTION else 'Requer melhorias'}}")
+    print("="*60)
+'''
+
+        with open("best_model_config.py", 'w', encoding='utf-8') as f:
+            f.write(module_content)
+
+        print(f"✓ Módulo Python criado: best_model_config.py")
+        print(f"  Use: from best_model_config import load_best_model")
     
     def run_benchmark(self):
         """Executa benchmark completo"""
