@@ -89,8 +89,28 @@ class EmbeddingBenchmark:
     def encode_batch(self, embedder, texts, batch_size=32):
         """Vetoriza lista de textos em lotes com cache"""
         if self.use_cache and self.cache:
-            # Usa cache para acelerar
-            model_name = embedder._model_card_data.model_name if hasattr(embedder, '_model_card_data') else str(type(embedder).__name__)
+            # Usa cache para acelerar - pega nome correto do modelo
+            if hasattr(embedder, '_model_card_data') and hasattr(embedder._model_card_data, 'model_name'):
+                model_name = embedder._model_card_data.model_name
+            elif hasattr(embedder, 'model_card_data') and hasattr(embedder.model_card_data, 'model_name'):
+                model_name = embedder.model_card_data.model_name
+            elif hasattr(embedder, '_model_name'):
+                model_name = embedder._model_name
+            else:
+                # Fallback: usa nome da pasta do modelo se disponível
+                import os
+                if hasattr(embedder, '_modules') and '0' in embedder._modules:
+                    transformer = embedder._modules['0']
+                    if hasattr(transformer, 'auto_model'):
+                        model_name = transformer.auto_model.name_or_path
+                    else:
+                        model_name = "unknown_model"
+                else:
+                    model_name = "unknown_model"
+
+            # Debug: mostra nome do modelo usado no cache
+            if len(texts) > 1000:  # Só mostra para operações grandes
+                print(f"Cache: usando modelo '{model_name}'")
 
             # Tenta recuperar do cache
             cached_embeddings, missing_indices = self.cache.get_batch(texts, model_name)

@@ -169,8 +169,8 @@ class EmbeddingCache:
             except Exception as e:
                 print(f"Erro ao salvar cache {hash_key}: {e}")
 
-            # Mostra progresso
-            if show_progress and ((idx + 1) % 1000 == 0 or (idx + 1) == len(texts)):
+            # Mostra progresso a cada 10000
+            if show_progress and ((idx + 1) % 10000 == 0 or (idx + 1) == len(texts)):
                 print(f"  Salvos: {idx + 1}/{len(texts)} ({(idx+1)/len(texts)*100:.1f}%)")
 
         # Salva metadata apenas uma vez no final (muito mais eficiente)
