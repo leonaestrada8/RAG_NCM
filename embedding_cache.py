@@ -137,17 +137,46 @@ class EmbeddingCache:
 
         return embeddings, missing_indices
 
-    def set_batch(self, texts: List[str], model_name: str, embeddings: List[np.ndarray]):
+    def set_batch(self, texts: List[str], model_name: str, embeddings: List[np.ndarray], show_progress: bool = True):
         """
-        Salva múltiplos embeddings no cache.
+        Salva múltiplos embeddings no cache de forma otimizada.
 
         Args:
             texts: Lista de textos
             model_name: Nome do modelo
             embeddings: Lista de embeddings
+            show_progress: Se True, mostra progresso
         """
-        for text, emb in zip(texts, embeddings):
-            self.set(text, model_name, emb)
+        if show_progress:
+            print(f"Salvando {len(texts)} embeddings no cache...")
+
+        for idx, (text, emb) in enumerate(zip(texts, embeddings)):
+            # Salva embedding sem atualizar metadata a cada vez (otimização)
+            hash_key = self._get_hash(text, model_name)
+            cache_file = self.cache_dir / f"{hash_key}.pkl"
+
+            try:
+                with open(cache_file, 'wb') as f:
+                    pickle.dump(emb, f)
+
+                # Atualiza metadata em memória
+                self.metadata["entries"][hash_key] = {
+                    "model": model_name,
+                    "text_length": len(text),
+                    "embedding_shape": emb.shape
+                }
+
+            except Exception as e:
+                print(f"Erro ao salvar cache {hash_key}: {e}")
+
+            # Mostra progresso
+            if show_progress and ((idx + 1) % 1000 == 0 or (idx + 1) == len(texts)):
+                print(f"  Salvos: {idx + 1}/{len(texts)} ({(idx+1)/len(texts)*100:.1f}%)")
+
+        # Salva metadata apenas uma vez no final (muito mais eficiente)
+        self._save_metadata()
+        if show_progress:
+            print(f"✓ Cache atualizado com {len(texts)} novos embeddings")
 
     def clear(self, model_name: Optional[str] = None):
         """

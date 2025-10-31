@@ -113,9 +113,9 @@ class EmbeddingBenchmark:
                     new_embeddings.extend(embeddings)
                     pbar.update(len(batch))
 
-            # Atualiza cache com novos embeddings
-            for idx, emb_idx in enumerate(missing_indices):
-                self.cache.set(texts[emb_idx], model_name, new_embeddings[idx])
+            # Atualiza cache com novos embeddings (batch otimizado)
+            missing_texts = [texts[i] for i in missing_indices]
+            self.cache.set_batch(missing_texts, model_name, new_embeddings, show_progress=True)
 
             # Mescla resultados
             result = []
