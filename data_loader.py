@@ -4,6 +4,8 @@
 
 import pandas as pd
 import json
+import unicodedata
+import re
 from config import NCM_FILE, ATRIBUTOS_FILE
 
 
@@ -14,13 +16,58 @@ def normalize_ncm_code(code):
     """
     if not code or pd.isna(code):
         return ""
-    
+
     code = str(code).strip().replace('.', '').replace('-', '')
-    
+
     if len(code) == 8:
         return f"{code[:4]}.{code[4:6]}.{code[6:8]}"
-    
+
     return code
+
+
+def normalize_text_advanced(text, keep_stopwords_if_short=True):
+    """
+    Normalização avançada de texto para melhorar busca semântica.
+
+    Aplica:
+    - Remoção de acentos (mantém semântica)
+    - Lowercase
+    - Limpeza de pontuação
+    - Remoção seletiva de stopwords
+
+    Args:
+        text: Texto para normalizar
+        keep_stopwords_if_short: Se True, mantém stopwords em textos curtos
+
+    Returns:
+        Texto normalizado
+    """
+    if not text or not isinstance(text, str):
+        return ""
+
+    # 1. Remove acentos mantendo semântica
+    text = unicodedata.normalize('NFKD', text)
+    text = text.encode('ASCII', 'ignore').decode('ASCII')
+
+    # 2. Lowercase
+    text = text.lower()
+
+    # 3. Remove pontuação extra, mantém espaços e hífens
+    text = re.sub(r'[^\w\s-]', ' ', text)
+
+    # 4. Remove espaços múltiplos
+    text = re.sub(r'\s+', ' ', text)
+
+    # 5. Remove stopwords muito comuns (mas não todas)
+    # Lista mínima para não perder semântica importante
+    minimal_stopwords = {'de', 'da', 'do', 'dos', 'das', 'em', 'na', 'no', 'para', 'com', 'o', 'a'}
+    words = text.split()
+
+    # Só remove stopwords se texto tem mais de 3 palavras
+    if keep_stopwords_if_short and len(words) > 3:
+        words = [w for w in words if w not in minimal_stopwords or len(w) > 2]
+
+    return ' '.join(words).strip()
 
 
 def pad_ncm_code(code):
@@ -229,7 +276,13 @@ def create_enriched_ncm_text(row, hierarchy, atributos_dict):
         num_attrs = len(atributos_dict[codigo_norm])
         texto += f"\nAtributos: {num_attrs} cadastrados"
 
-    return texto
+    # Aplica normalização avançada para melhorar embeddings
+    # Nota: Mantém estrutura multi-linha mas normaliza cada parte
+    lines = texto.split('\n')
+    normalized_lines = [normalize_text_advanced(line, keep_stopwords_if_short=True) for line in lines]
+    texto_normalizado = ' | '.join([l for l in normalized_lines if l])
+
+    return texto_normalizado
 
 
 def create_atributo_description(ncm_code, atributo):
