@@ -44,7 +44,7 @@ class ComparisonBenchmark:
         # 1. Carrega modelo
         print(f"\n1. Carregando modelo: {self.model_name}...")
         self.embedder = SentenceTransformer(self.model_name)
-        print("✓ Modelo carregado")
+        print("[OK] Modelo carregado")
 
         # 2. Carrega dados NCM
         print("\n2. Carregando dados NCM...")
@@ -60,13 +60,13 @@ class ComparisonBenchmark:
                 if codigo:
                     self.atributos_dict[codigo] = ncm_item
 
-        print(f"✓ NCMs: {len(self.ncm_data)}")
-        print(f"✓ Atributos: {len(self.atributos_dict)}")
+        print(f"[OK] NCMs: {len(self.ncm_data)}")
+        print(f"[OK] Atributos: {len(self.atributos_dict)}")
 
         # 3. Cria collection ChromaDB
         print("\n3. Criando collection ChromaDB...")
         self._create_collection()
-        print("✓ Collection criada e populada")
+        print("[OK] Collection criada e populada")
 
         # 4. Cria HybridSearcher
         print("\n4. Criando HybridSearcher...")
@@ -75,7 +75,7 @@ class ComparisonBenchmark:
             embedding_weight=0.6,
             bm25_weight=0.4
         )
-        print("✓ HybridSearcher pronto")
+        print("[OK] HybridSearcher pronto")
 
     def _create_collection(self):
         """Cria e popula collection ChromaDB"""
@@ -88,10 +88,6 @@ class ComparisonBenchmark:
         metadatas = []
         ids = []
 
-        col_codigo = 'CO_NCM'
-        col_desc = 'NO_NCM_POR'
-        col_codigo_norm = 'Codigo'
-
         print("  Preparando documentos NCM...")
         for idx, row in self.ncm_data.iterrows():
             doc_text = create_enriched_ncm_text(row, self.hierarchy, self.atributos_dict)
@@ -99,9 +95,9 @@ class ComparisonBenchmark:
             if not doc_text or not doc_text.strip():
                 continue
 
-            codigo = str(row.get(col_codigo, '')).strip()
-            descricao = str(row.get(col_desc, '')).strip()
-            codigo_norm = str(row.get(col_codigo_norm, '')).strip() if col_codigo_norm else codigo
+            codigo = str(row.get('Código', '')).strip()
+            descricao = str(row.get('Descrição', '')).strip()
+            codigo_norm = str(row.get('CódigoNormalizado', '')).strip()
 
             if not codigo and not descricao:
                 continue
@@ -140,7 +136,7 @@ class ComparisonBenchmark:
             )
             print(f"    Lote {i//BATCH_SIZE + 1}: {end}/{len(documents)}")
 
-        print(f"  ✓ {len(documents)} documentos indexados")
+        print(f"  [OK] {len(documents)} documentos indexados")
 
     def test_embedding_only(self) -> dict:
         """Testa com embedding puro (ChromaDB)"""
@@ -363,11 +359,11 @@ class ComparisonBenchmark:
         print("="*70)
 
         if diff_score > 0:
-            print(f"✓ Busca Híbrida GANHOU {diff_score:.1f} pontos")
+            print(f"[OK] Busca Híbrida GANHOU {diff_score:.1f} pontos")
             print(f"  Top-1: {diff_top1:+.1f}% | Top-5: {diff_top5:+.1f}%")
             print(f"\n  Recomendação: USAR BUSCA HÍBRIDA em produção")
         elif diff_score < 0:
-            print(f"⚠️ Busca Híbrida PERDEU {abs(diff_score):.1f} pontos")
+            print(f"[AVISO] Busca Híbrida PERDEU {abs(diff_score):.1f} pontos")
             print(f"  Top-1: {diff_top1:+.1f}% | Top-5: {diff_top5:+.1f}%")
             print(f"\n  Recomendação: Manter embedding puro ou ajustar pesos")
         else:
@@ -387,9 +383,9 @@ class ComparisonBenchmark:
 
 def main():
     """Executa teste comparativo completo"""
-    print("\n" + "🚀"*35)
-    print("TESTE COMPARATIVO: EMBEDDING vs BUSCA HÍBRIDA")
-    print("🚀"*35 + "\n")
+    print("\n" + "="*70)
+    print("TESTE COMPARATIVO: EMBEDDING vs BUSCA HIBRIDA")
+    print("="*70 + "\n")
 
     # Cria benchmark
     benchmark = ComparisonBenchmark(model_name="intfloat/multilingual-e5-base")
@@ -424,7 +420,7 @@ def main():
     except:
         pass
 
-    print("\n✓ Teste completo!")
+    print("\n[OK] Teste completo!")
     print(f"\nArquivos de referência:")
     print(f"  - hybrid_search.py: Módulo de busca híbrida")
     print(f"  - test_hybrid_search.py: Este script de teste")
