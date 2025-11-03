@@ -11,8 +11,9 @@ import chromadb
 from datetime import datetime
 from sentence_transformers import SentenceTransformer
 
-# Adiciona diretorio do projeto ao path
-sys.path.insert(0, '/mnt/project')
+# Adiciona diretorio raiz do projeto ao path
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from data_loader import (
     load_ncm_data,
@@ -27,7 +28,7 @@ from tqdm import tqdm
 
 # Importa melhorias
 from embedding_cache import EmbeddingCache, encode_with_cache
-from ground_truth_cases import TEST_CASES
+from benchmark.ground_truth_cases import TEST_CASES
 
 
 # Lista de modelos para testar - AJUSTADA APÓS BENCHMARK INICIAL

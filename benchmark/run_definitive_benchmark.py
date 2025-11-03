@@ -32,8 +32,10 @@ import os
 import argparse
 from datetime import datetime
 
-# Adiciona diretório do projeto ao path
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# Adiciona diretórios do projeto ao path
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))  # Raiz do projeto
+sys.path.insert(0, str(Path(__file__).parent))  # Diretório benchmark
 
 from benchmark_embeddings import EmbeddingBenchmark, MODELS_TO_TEST
 

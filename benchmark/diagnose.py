@@ -183,8 +183,8 @@ def analyze_ground_truth():
     print("DIAGNÓSTICO 3: DIFICULDADE DO GROUND TRUTH")
     print("="*70)
 
-    sys.path.insert(0, '.')
-    from ground_truth_cases import TEST_CASES, EDGE_CASES
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+    from benchmark.ground_truth_cases import TEST_CASES, EDGE_CASES
 
     print(f"\n📊 Estatísticas:")
     print(f"  Casos normais: {len(TEST_CASES)}")

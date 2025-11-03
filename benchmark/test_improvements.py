@@ -7,8 +7,9 @@ Script de teste para validar melhorias no RAG NCM
 import sys
 import os
 
-# Adiciona o diretório ao path
-sys.path.insert(0, os.path.dirname(__file__))
+# Adiciona o diretório raiz do projeto ao path
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from data_loader import pad_ncm_code, normalize_ncm_code, detect_ncm_level
 

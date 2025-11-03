@@ -1,6 +1,10 @@
 # diagnostics_advanced.py
 # Diagnostico avancado para avaliar qualidade do sistema RAG NCM
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import numpy as np
 from collections import defaultdict
 from embeddings import encode_text
