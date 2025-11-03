@@ -13,7 +13,7 @@ from config import CLEAR_DB, DEFAULT_MODEL
 import time
 import argparse
 import random
-from diagnostics import check_prepared_documents, comprehensive_diagnostic
+from benchmark.diagnostics import check_prepared_documents, comprehensive_diagnostic
 
 
 def setup_database():
