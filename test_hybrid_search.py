@@ -152,8 +152,11 @@ class ComparisonBenchmark:
         start = time.time()
 
         for idx, (query, expected_ncm) in enumerate(TEST_CASES):
+            # Usa o mesmo embedder para query que foi usado na indexação
+            query_embedding = self.embedder.encode([query]).tolist()
+
             results = self.collection.query(
-                query_texts=[query],
+                query_embeddings=query_embedding,
                 n_results=5
             )
 
