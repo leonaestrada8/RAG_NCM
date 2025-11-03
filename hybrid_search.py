@@ -83,6 +83,7 @@ class HybridSearcher:
         documents: List[str],
         metadatas: List[Dict],
         ids: List[str],
+        embedder=None,
         embedding_weight: float = 0.6,
         bm25_weight: float = 0.4
     ):
@@ -94,6 +95,7 @@ class HybridSearcher:
             documents: Lista de textos dos documentos
             metadatas: Lista de metadados
             ids: Lista de IDs
+            embedder: SentenceTransformer embedder (opcional, usa collection default se None)
             embedding_weight: Peso do embedding (padrão: 0.6)
             bm25_weight: Peso do BM25 (padrão: 0.4)
         """
@@ -101,6 +103,7 @@ class HybridSearcher:
         self.documents = documents
         self.metadatas = metadatas
         self.ids = ids
+        self.embedder = embedder
 
         # Pesos
         self.embedding_weight = embedding_weight
@@ -174,10 +177,19 @@ class HybridSearcher:
 
     def _search_embedding(self, query: str, top_k: int) -> List[Dict]:
         """Busca por embedding (ChromaDB)"""
-        results = self.collection.query(
-            query_texts=[query],
-            n_results=top_k
-        )
+        if self.embedder is not None:
+            # Usa embedder fornecido
+            query_embedding = self.embedder.encode([query]).tolist()
+            results = self.collection.query(
+                query_embeddings=query_embedding,
+                n_results=top_k
+            )
+        else:
+            # Usa embedding padrão da collection
+            results = self.collection.query(
+                query_texts=[query],
+                n_results=top_k
+            )
 
         # Converte para formato unificado
         embedding_results = []
@@ -380,6 +392,7 @@ class HybridSearcher:
 
 def create_hybrid_searcher_from_collection(
     collection,
+    embedder=None,
     embedding_weight: float = 0.6,
     bm25_weight: float = 0.4
 ) -> HybridSearcher:
@@ -388,6 +401,7 @@ def create_hybrid_searcher_from_collection(
 
     Args:
         collection: ChromaDB collection
+        embedder: SentenceTransformer embedder (opcional)
         embedding_weight: Peso do embedding (padrão: 0.6)
         bm25_weight: Peso do BM25 (padrão: 0.4)
 
@@ -408,6 +422,7 @@ def create_hybrid_searcher_from_collection(
         documents=documents,
         metadatas=metadatas,
         ids=ids,
+        embedder=embedder,
         embedding_weight=embedding_weight,
         bm25_weight=bm25_weight
     )

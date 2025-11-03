@@ -72,6 +72,7 @@ class ComparisonBenchmark:
         print("\n4. Criando HybridSearcher...")
         self.hybrid_searcher = create_hybrid_searcher_from_collection(
             self.collection,
+            embedder=self.embedder,
             embedding_weight=0.6,
             bm25_weight=0.4
         )
