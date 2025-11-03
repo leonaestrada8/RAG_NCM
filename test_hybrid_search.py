@@ -15,7 +15,7 @@ from sentence_transformers import SentenceTransformer
 from pathlib import Path
 
 # Imports do projeto
-from data_loader import load_ncm_data, load_atributos_data, create_enriched_ncm_text, build_hierarchy
+from data_loader import load_ncm_data, load_atributos_data, create_enriched_ncm_text, build_ncm_hierarchy
 from hybrid_search import HybridSearcher, create_hybrid_searcher_from_collection
 from ground_truth_cases import TEST_CASES
 
@@ -50,7 +50,7 @@ class ComparisonBenchmark:
         print("\n2. Carregando dados NCM...")
         self.ncm_data = load_ncm_data()
         self.atributos_data = load_atributos_data()
-        self.hierarchy = build_hierarchy(self.ncm_data)
+        self.hierarchy = build_ncm_hierarchy(self.ncm_data)
 
         # Prepara dicionário de atributos
         self.atributos_dict = {}
