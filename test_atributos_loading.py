@@ -2,6 +2,10 @@
 Script de teste para validar carregamento de atributos
 """
 
+import os
+# Desabilita normalização para ver texto original
+os.environ['DISABLE_NORMALIZATION'] = '1'
+
 from data_loader import (
     load_ncm_data,
     load_atributos_data,
@@ -35,16 +39,23 @@ if len(atributos_dict) > 0:
     print("\n5. Testando enriquecimento de documentos...")
     hierarchy = build_ncm_hierarchy(ncm_data)
 
-    # Pega primeiros 5 NCMs
+    # Pega primeiros 20 NCMs para ter mais chances
     enriched_count = 0
-    for idx, row in ncm_data.head(10).iterrows():
-        doc = create_enriched_ncm_text(row, hierarchy, atributos_dict)
+    for idx, row in ncm_data.head(20).iterrows():
         codigo_norm = row['CódigoNormalizado']
+        tem_atributo = codigo_norm in atributos_dict
+
+        doc = create_enriched_ncm_text(row, hierarchy, atributos_dict)
+
+        print(f"   NCM {codigo_norm}: tem_atributo={tem_atributo}, ", end="")
 
         if doc and "Atributos:" in doc:
             enriched_count += 1
-            print(f"\n   NCM {codigo_norm}:")
-            print(f"   {doc[:200]}...")
+            print("ENRIQUECIDO OK")
+        elif tem_atributo:
+            print("TEM atributo mas NAO enriqueceu")
+        else:
+            print("nao tem atributo (ok)")
 
     print(f"\n   Total enriquecidos (de 10 testados): {enriched_count}")
 
