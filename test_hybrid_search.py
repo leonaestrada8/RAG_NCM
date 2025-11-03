@@ -15,7 +15,7 @@ from sentence_transformers import SentenceTransformer
 from pathlib import Path
 
 # Imports do projeto
-from data_loader import load_ncm_data, load_atributos_data, create_enriched_ncm_text, build_ncm_hierarchy
+from data_loader import load_ncm_data, load_atributos_data, create_enriched_ncm_text, build_ncm_hierarchy, create_atributos_dict
 from hybrid_search import HybridSearcher, create_hybrid_searcher_from_collection
 from ground_truth_cases import TEST_CASES
 
@@ -52,13 +52,8 @@ class ComparisonBenchmark:
         self.atributos_data = load_atributos_data()
         self.hierarchy = build_ncm_hierarchy(self.ncm_data)
 
-        # Prepara dicionário de atributos
-        self.atributos_dict = {}
-        if self.atributos_data and 'listaNcm' in self.atributos_data:
-            for ncm_item in self.atributos_data['listaNcm']:
-                codigo = ncm_item.get('codigo', '').strip()
-                if codigo:
-                    self.atributos_dict[codigo] = ncm_item
+        # Prepara dicionário de atributos usando função do data_loader
+        self.atributos_dict = create_atributos_dict(self.atributos_data)
 
         print(f"[OK] NCMs: {len(self.ncm_data)}")
         print(f"[OK] Atributos: {len(self.atributos_dict)}")
