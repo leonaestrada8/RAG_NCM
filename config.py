@@ -13,7 +13,7 @@ CLIENT_SECRET = os.environ.get('CLIENT_SECRET', '')
 
 DB_PATH = "ncm_atributos_rag"
 COLLECTION_NAME = "ncm_atributos"
-CLEAR_DB = True # True para limpar o banco de dados
+CLEAR_DB = False # True para limpar o banco de dados | False para reutilizar banco existente
 
 NCM_FILE = "DATA/SubItemNcm.csv"
 ATRIBUTOS_FILE = "DATA/ATRIBUTOS_POR_NCM_2025_09_30.json"
