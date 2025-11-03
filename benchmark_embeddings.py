@@ -665,25 +665,25 @@ class EmbeddingBenchmark:
 
         config = {
             "model": {
-                "name": best_model['model_name'],
+                "name": str(best_model['model_name']),
                 "score": float(best_model['score']),
                 "accuracy_top1": float(best_model['accuracy_top1']),
                 "accuracy_top5": float(best_model['accuracy_top5']),
                 "mean_distance": float(best_model['mean_distance']),
                 "elapsed_time": float(best_model['elapsed_time']),
-                "timestamp": best_model['timestamp']
+                "timestamp": str(best_model['timestamp'])
             },
             "settings": {
                 "use_cache": True,
-                "use_reranking": best_model['accuracy_top1'] < 75,  # Ativa reranking se Top-1 < 75%
+                "use_reranking": bool(best_model['accuracy_top1'] < 75),  # Ativa reranking se Top-1 < 75%
                 "batch_size": 32,
                 "top_k_initial": 15,  # Para reranking
                 "top_k_final": 5
             },
             "performance": {
                 "quality_score": float(best_model['score']),
-                "speed_score": 100 - min(100, (best_model['elapsed_time'] / 3600) * 100),
-                "recommended_for_production": best_model['score'] >= 80
+                "speed_score": float(100 - min(100, (best_model['elapsed_time'] / 3600) * 100)),
+                "recommended_for_production": bool(best_model['score'] >= 80)
             },
             "alternatives": []
         }
@@ -692,9 +692,9 @@ class EmbeddingBenchmark:
         for idx in range(1, min(3, len(df_sorted))):
             alt = df_sorted.iloc[idx]
             config["alternatives"].append({
-                "name": alt['model_name'],
+                "name": str(alt['model_name']),
                 "score": float(alt['score']),
-                "reason": self._get_alternative_reason(best_model, alt)
+                "reason": str(self._get_alternative_reason(best_model, alt))
             })
 
         # Salva em arquivo
