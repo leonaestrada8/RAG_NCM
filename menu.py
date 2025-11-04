@@ -22,19 +22,15 @@ def print_menu():
     print("  3. Primeiros N Registros    4. Registros Aleatórios")
     print("  5. Estatísticas do Banco")
     print("\n[DIAGNÓSTICOS]")
-    print("  6. Diagnóstico Básico       7. Relatório Completo")
+    print("  6. Diagnóstico Rápido       7. Relatório Completo")
     print("  8. Análise Distâncias       9. Análise Cobertura")
-    print(" 10. Ground Truth            11. Qualidade Embeddings")
-    print(" 12. Qualidade Textos")
-    print("\n[BENCHMARKS]")
-    print(" 13. Benchmark Completo      14. Analisar Resultados")
-    print(" 15. Benchmark Rápido")
+    print(" 10. Ground Truth")
     print("\n[CONFIGURAÇÃO]")
-    print(" 16. Reconfigurar Banco      17. Limpar Cache")
-    print(" 18. Limpar Cache Parcial    19. Info Sistema")
+    print(" 11. Reconfigurar Banco      12. Limpar Cache")
+    print(" 13. Info Sistema")
     print("\n[CONSULTAS]")
-    print(" 20. Consulta NCM            21. Consulta Atributos")
-    print(" 22. Busca com LLM")
+    print(" 14. Consulta NCM            15. Consulta Atributos")
+    print(" 16. Busca com LLM")
     print("\n  0. Sair")
     print("="*70)
     print("\n💡 DICA: Digite número, 'consulta <texto>' ou texto livre para busca LLM")
@@ -86,76 +82,38 @@ def option_5(c):
 
 
 def option_6(c):
-    from benchmark.diagnostics import comprehensive_diagnostic
+    from diagnostico.diagnostics import comprehensive_diagnostic
     comprehensive_diagnostic(c)
     pause()
 
 
 def option_7(c):
-    from benchmark.diagnostics import comprehensive_quality_report
+    from diagnostico.diagnostics import comprehensive_quality_report
     print("\n⏱️  Alguns minutos...")
     comprehensive_quality_report(c)
     pause()
 
 
 def option_8(c):
-    from benchmark.diagnostics import analyze_distance_distribution
+    from diagnostico.diagnostics import analyze_distance_distribution
     queries = ["cafe", "soja", "carne", "acucar", "telefone", "arroz"]
     analyze_distance_distribution(c, queries)
     pause()
 
 
 def option_9(c):
-    from benchmark.diagnostics import analyze_attribute_coverage
+    from diagnostico.diagnostics import analyze_attribute_coverage
     analyze_attribute_coverage(c)
     pause()
 
 
 def option_10(c):
-    from benchmark.diagnostics import evaluate_known_ncm_queries
+    from diagnostico.diagnostics import evaluate_known_ncm_queries
     evaluate_known_ncm_queries(c)
     pause()
 
 
 def option_11(c):
-    from benchmark.diagnostics import analyze_embedding_quality
-    analyze_embedding_quality(c)
-    pause()
-
-
-def option_12(c):
-    from benchmark.diagnostics import analyze_indexed_text_quality
-    analyze_indexed_text_quality(c, get_int("Quantos docs? [10]: ", 10))
-    pause()
-
-
-def option_13(c):
-    if input("\n⚠️  Leva HORAS. Continuar? [s/N]: ").lower() not in ['s', 'sim', 'y', 'yes']:
-        return
-    from benchmark.benchmark_embeddings import EmbeddingBenchmark
-    EmbeddingBenchmark().run_benchmark()
-    pause()
-
-
-def option_14(c):
-    import subprocess
-    subprocess.run([sys.executable, "benchmark/analyze_benchmark_results.py"])
-    pause()
-
-
-def option_15(c):
-    if input("\n⚠️  30-60 min. Continuar? [s/N]: ").lower() not in ['s', 'sim', 'y', 'yes']:
-        return
-    from benchmark.benchmark_embeddings import EmbeddingBenchmark, MODELS_TO_TEST
-    b = EmbeddingBenchmark()
-    b.load_data()
-    for m in MODELS_TO_TEST[:3]:
-        b.test_model(m)
-    b.generate_comparative_report()
-    pause()
-
-
-def option_16(c):
     if input("\n⚠️  APAGA banco. Continuar? [s/N]: ").lower() not in ['s', 'sim', 'y', 'yes']:
         return
     import config
@@ -168,21 +126,13 @@ def option_16(c):
     return new_c
 
 
-def option_17(c):
+def option_12(c):
     import subprocess
-    subprocess.run([sys.executable, "benchmark/clear_cache.py"])
+    subprocess.run([sys.executable, "diagnostico/clear_cache.py"])
     pause()
 
 
-def option_18(c):
-    m = input("\nModelo (ex: 'e5'): ").strip()
-    if m:
-        import subprocess
-        subprocess.run([sys.executable, "benchmark/clear_cache.py", "--model", m])
-    pause()
-
-
-def option_19(c):
+def option_13(c):
     from config import EMBEDDING_MODEL, DEFAULT_MODEL, NCM_FILE, ATRIBUTOS_FILE
     print("\n" + "="*70)
     print("INFORMAÇÕES DO SISTEMA")
@@ -199,13 +149,13 @@ def option_19(c):
     except:
         pass
     try:
-        print(f"  Atributos: {len(c.get(where={'tipo': 'atributo'}, limit=60000)['ids'])}")
+        print(f"  Atributos: {len(c.get(where={'tipo': 'atributo'}, limit=100000)['ids'])}")
     except:
         pass
     pause()
 
 
-def option_20(c):
+def option_14(c):
     from search import find_ncm_hierarchical
     desc = input("\nDescrição: ").strip()
     if not desc:
@@ -223,7 +173,7 @@ def option_20(c):
     pause()
 
 
-def option_21(c):
+def option_15(c):
     from search import find_atributos_by_ncm
     ncm = input("\nCódigo NCM: ").strip()
     if not ncm:
@@ -246,7 +196,7 @@ def option_21(c):
     pause()
 
 
-def option_22(c):
+def option_16(c):
     from llm_client import chat, get_models
     from search import find_ncm_hierarchical_with_context
     from config import DEFAULT_MODEL
@@ -319,8 +269,6 @@ def main_menu(collection=None):
         '5': option_5, '6': option_6, '7': option_7, '8': option_8,
         '9': option_9, '10': option_10, '11': option_11, '12': option_12,
         '13': option_13, '14': option_14, '15': option_15, '16': option_16,
-        '17': option_17, '18': option_18, '19': option_19, '20': option_20,
-        '21': option_21, '22': option_22
     }
 
     while True:
