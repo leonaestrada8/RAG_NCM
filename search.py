@@ -1,19 +1,24 @@
 # search.py
-# Busca aprimorada no banco vetorial com filtros e normalização
+# Busca vetorial no banco ChromaDB com filtros e ranking
 
 from embeddings import encode_text
 
 
 def find_similars(collection, query_text, k=15, filters=None, min_score=None):
     """
-    Busca documentos similares com opção de filtro por score
-    
-    Args:
-        collection: Coleção ChromaDB
-        query_text: Texto da consulta
-        k: Número de resultados
-        filters: Filtros de metadata
-        min_score: Score mínimo (distância máxima)
+    Busca documentos similares no banco vetorial.
+
+    Processo:
+    1. Vetoriza query_text usando modelo de embedding
+    2. Busca k documentos mais similares no ChromaDB
+    3. Aplica filtros de metadata se especificados
+    4. Filtra por score minimo (distancia maxima) se especificado
+
+    Distancia: menor = mais similar (0 = identico, >1 = muito diferente)
+    Score: 1 - distancia (maior = mais similar)
+
+    Retorna lista de dicionarios com documento, metadata e metricas
+    de similaridade (distance e score).
     """
     emb = encode_text(query_text).astype(float).tolist()
     
@@ -58,7 +63,12 @@ def find_similars(collection, query_text, k=15, filters=None, min_score=None):
 
 def find_ncm_by_description(collection, description_text, k=10):
     """
-    Busca NCMs por descrição com k maior para melhor cobertura
+    Busca NCMs por descricao usando similaridade vetorial.
+
+    Filtra resultados para retornar apenas documentos do tipo 'ncm',
+    excluindo atributos. Usa k=10 por padrao para boa cobertura de resultados.
+
+    Retorna lista ordenada por similaridade (mais similar primeiro).
     """
     return find_similars(
         collection, 
@@ -70,7 +80,14 @@ def find_ncm_by_description(collection, description_text, k=10):
 
 def find_atributos_by_ncm(collection, ncm_code, k=20):
     """
-    Busca atributos para NCM com normalização de código
+    Busca atributos associados a um codigo NCM especifico.
+
+    Normaliza codigo NCM para formato padrao antes da busca.
+    Usa busca exata por metadata (nao vetorial) filtrando por
+    tipo='atributo' AND ncm_codigo=codigo_normalizado.
+
+    Retorna lista de atributos com informacoes de modalidade
+    (Importacao/Exportacao), obrigatoriedade, multivalorado, etc.
     """
     from data_loader import normalize_ncm_code
     
@@ -113,7 +130,14 @@ def find_atributos_by_ncm(collection, ncm_code, k=20):
 
 
 def find_ncm_and_atributos(collection, description_text):
-    """Busca NCM e seus atributos por descrição"""
+    """
+    Busca NCM por descricao e retorna NCM com seus atributos.
+
+    Primeiro encontra melhor NCM por similaridade vetorial, depois
+    busca atributos desse NCM especifico.
+
+    Retorna tupla: (melhor_ncm, lista_de_atributos)
+    """
     ncm_hits = find_ncm_by_description(collection, description_text, k=5)
     
     if not ncm_hits:
@@ -129,7 +153,12 @@ def find_ncm_and_atributos(collection, description_text):
 
 def search_with_context(collection, query, k=8):
     """
-    Busca contextualizada que retorna NCMs e atributos relacionados
+    Busca contextualizada retornando NCMs com atributos enriquecidos.
+
+    Para cada NCM encontrado, busca seus atributos e inclui no resultado.
+    Cada resultado contem NCM completo mais lista de atributos e contagem.
+
+    Usado para fornecer contexto completo ao LLM no sistema RAG.
     """
     ncm_results = find_ncm_by_description(collection, query, k=k)
 
@@ -149,17 +178,20 @@ def search_with_context(collection, query, k=8):
 
 def find_ncm_hierarchical(collection, query_text, k=10, prefer_items=True, min_distance=None):
     """
-    Busca hierárquica que prioriza itens específicos sobre categorias gerais
+    Busca hierarquica priorizando items especificos sobre categorias gerais.
 
-    Args:
-        collection: Coleção ChromaDB
-        query_text: Texto da consulta
-        k: Número de resultados desejados
-        prefer_items: Se True, prioriza items (8 dígitos) sobre posições/capítulos
-        min_distance: Distância mínima para filtrar resultados fracos
+    Estrategia de busca:
+    1. Busca k*3 resultados iniciais para ter opcoes de filtragem
+    2. Filtra por distancia minima se especificado
+    3. Se prefer_items=True, reorganiza resultados priorizando:
+       - Items (8 digitos) primeiro
+       - Subposicoes depois
+       - Posicoes depois
+       - Capitulos por ultimo
+    4. Retorna top k resultados apos priorizacao
 
-    Returns:
-        Lista de resultados ordenados priorizando itens específicos
+    Evita retornar categorias gerais quando existem items especificos
+    relevantes, melhorando precisao das respostas.
     """
     # Busca mais resultados inicialmente para ter opções de filtragem
     results = find_similars(
@@ -193,8 +225,15 @@ def find_ncm_hierarchical(collection, query_text, k=10, prefer_items=True, min_d
 
 def find_ncm_hierarchical_with_context(collection, query_text, k=8):
     """
-    Busca hierárquica com contexto completo (NCMs + atributos)
-    Combina find_ncm_hierarchical com search_with_context
+    Busca hierarquica com contexto completo de NCMs e atributos.
+
+    Combina find_ncm_hierarchical (priorizacao de items especificos)
+    com enriquecimento de atributos (search_with_context).
+
+    Para cada NCM encontrado hierarquicamente, adiciona seus atributos.
+
+    Funcao principal usada no modo interativo para alimentar LLM com
+    contexto completo e preciso.
     """
     ncm_results = find_ncm_hierarchical(collection, query_text, k=k, prefer_items=True)
 
