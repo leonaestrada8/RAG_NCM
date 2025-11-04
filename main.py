@@ -189,22 +189,36 @@ def main():
     Processa argumentos da linha de comando:
     - --prompt: arquivo de prompt do sistema (default: system_prompt.txt)
     - --setup-only: apenas configura banco sem entrar em modo interativo
+    - --cli: usa modo interativo CLI (antigo)
+    - --menu: usa menu principal completo (default)
 
     Fluxo de execucao:
     1. Configura e indexa banco vetorial (ou reutiliza existente)
-    2. Se --setup-only nao especificado, entra em modo interativo
-    3. Modo interativo permite consultas e comandos ao sistema
+    2. Se --setup-only nao especificado, entra em modo de interface
+    3. Modo padrao e o menu principal com todas funcionalidades
+    4. Modo CLI mantem compatibilidade com versao anterior
     """
     parser = argparse.ArgumentParser(description='Sistema RAG NCM Aprimorado')
     parser.add_argument('--prompt', type=str, default='system_prompt.txt')
-    parser.add_argument('--setup-only', action='store_true')
+    parser.add_argument('--setup-only', action='store_true',
+                        help='Apenas configura banco sem entrar em modo interativo')
+    parser.add_argument('--cli', action='store_true',
+                        help='Usa modo interativo CLI (modo antigo)')
+    parser.add_argument('--menu', action='store_true',
+                        help='Usa menu principal completo (default)')
 
     args = parser.parse_args()
 
     collection = setup_database()
 
     if not args.setup_only:
-        interactive_mode(collection, prompt_file=args.prompt)
+        # Se --cli especificado, usa modo antigo
+        if args.cli:
+            interactive_mode(collection, prompt_file=args.prompt)
+        # Caso contrario, usa menu principal (default)
+        else:
+            from menu import main_menu
+            main_menu(collection)
 
     return collection
 
