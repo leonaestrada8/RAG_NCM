@@ -49,12 +49,6 @@ class EmbeddingCache:
         """
         Gera hash único para texto + modelo.
 
-        Args:
-            text: Texto a ser embedado
-            model_name: Nome do modelo de embedding
-
-        Returns:
-            Hash MD5 hexadecimal
         """
         key = f"{model_name}:{text}"
         return hashlib.md5(key.encode('utf-8')).hexdigest()
@@ -63,12 +57,6 @@ class EmbeddingCache:
         """
         Recupera embedding do cache se existir.
 
-        Args:
-            text: Texto a buscar
-            model_name: Nome do modelo
-
-        Returns:
-            Embedding (numpy array) ou None se não encontrado
         """
         hash_key = self._get_hash(text, model_name)
         cache_file = self.cache_dir / f"{hash_key}.pkl"
@@ -90,10 +78,6 @@ class EmbeddingCache:
         """
         Salva embedding no cache.
 
-        Args:
-            text: Texto original
-            model_name: Nome do modelo
-            embedding: Embedding (numpy array)
         """
         hash_key = self._get_hash(text, model_name)
         cache_file = self.cache_dir / f"{hash_key}.pkl"
@@ -117,14 +101,6 @@ class EmbeddingCache:
         """
         Recupera múltiplos embeddings do cache.
 
-        Args:
-            texts: Lista de textos
-            model_name: Nome do modelo
-
-        Returns:
-            Tuple (embeddings, indices_missing)
-            - embeddings: Lista com embeddings (None para não encontrados)
-            - indices_missing: Índices dos textos não encontrados
         """
         embeddings = []
         missing_indices = []
@@ -141,17 +117,12 @@ class EmbeddingCache:
         """
         Salva múltiplos embeddings no cache de forma otimizada.
 
-        Args:
-            texts: Lista de textos
-            model_name: Nome do modelo
-            embeddings: Lista de embeddings
-            show_progress: Se True, mostra progresso
         """
         if show_progress:
             print(f"Salvando {len(texts)} embeddings no cache...")
 
         for idx, (text, emb) in enumerate(zip(texts, embeddings)):
-            # Salva embedding sem atualizar metadata a cada vez (otimização)
+            # Salva embedding sem atualizar metadata a cada vez 
             hash_key = self._get_hash(text, model_name)
             cache_file = self.cache_dir / f"{hash_key}.pkl"
 
@@ -173,7 +144,7 @@ class EmbeddingCache:
             if show_progress and ((idx + 1) % 10000 == 0 or (idx + 1) == len(texts)):
                 print(f"  Salvos: {idx + 1}/{len(texts)} ({(idx+1)/len(texts)*100:.1f}%)")
 
-        # Salva metadata apenas uma vez no final (muito mais eficiente)
+        # Salva metadata apenas uma vez no final 
         self._save_metadata()
         if show_progress:
             print(f"✓ Cache atualizado com {len(texts)} novos embeddings")
@@ -182,8 +153,6 @@ class EmbeddingCache:
         """
         Limpa cache completo ou de um modelo específico.
 
-        Args:
-            model_name: Se fornecido, limpa apenas esse modelo
         """
         if model_name is None:
             # Limpa tudo
@@ -214,8 +183,6 @@ class EmbeddingCache:
         """
         Retorna estatísticas do cache.
 
-        Returns:
-            Dict com estatísticas
         """
         total_entries = len(self.metadata["entries"])
         cache_size_mb = sum(
@@ -259,14 +226,6 @@ def encode_with_cache(embedder, texts: List[str], cache: EmbeddingCache, batch_s
     """
     Codifica textos usando cache quando possível.
 
-    Args:
-        embedder: Modelo SentenceTransformer
-        texts: Lista de textos
-        cache: Instância do cache
-        batch_size: Tamanho do lote
-
-    Returns:
-        Lista de embeddings
     """
     model_name = embedder._model_card_data.model_name if hasattr(embedder, '_model_card_data') else str(embedder)
 

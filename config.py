@@ -14,8 +14,8 @@ CLIENT_SECRET = os.environ.get('CLIENT_SECRET', '')
 
 # Configuracao do banco vetorial ChromaDB
 # DB_PATH: diretorio onde ChromaDB persiste dados
-# COLLECTION_NAME: nome da colecao dentro do banco
 DB_PATH = "ncm_atributos_rag"
+# COLLECTION_NAME: nome da colecao dentro do banco
 COLLECTION_NAME = "ncm_atributos"
 
 # Controla se banco deve ser limpo e recriado
@@ -25,8 +25,8 @@ CLEAR_DB = False
 
 # Arquivos de dados fonte
 # NCM_FILE: CSV com codigos e descricoes NCM
-# ATRIBUTOS_FILE: JSON com atributos por NCM
 NCM_FILE = "DATA/SubItemNcm.csv"
+# ATRIBUTOS_FILE: JSON com atributos por NCM
 ATRIBUTOS_FILE = "DATA/ATRIBUTOS_POR_NCM_2025_09_30.json"
 
 # Controla estrategia de indexacao hierarquica

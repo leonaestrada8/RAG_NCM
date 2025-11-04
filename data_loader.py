@@ -144,7 +144,7 @@ def load_ncm_data():
                 (ncm_df['Código'] != '') | (ncm_df['Descrição'] != '')
             ]
 
-            # CORRIGIDO: Aplica padding correto baseado no tamanho original
+            # Aplica padding baseado no tamanho original
             mask = ncm_df['Código'] != ''
             ncm_df.loc[mask, 'Código'] = ncm_df.loc[mask, 'Código'].apply(pad_ncm_code)
 

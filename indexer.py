@@ -35,7 +35,7 @@ def prepare_ncm_documents(ncm_data, hierarchy, atributos_dict, index_only_items=
     if ncm_data.empty:
         return documents, metadatas, ids
 
-    # CORRECAO: Detecta nomes reais das colunas (independente de encoding)
+    # Detecta nomes das colunas (independente de encoding)
     cols = ncm_data.columns.tolist()
 
     # Primeira coluna = Codigo
@@ -73,7 +73,7 @@ def prepare_ncm_documents(ncm_data, hierarchy, atributos_dict, index_only_items=
             skipped += 1
             continue
 
-        # NOVO: Filtragem de registros estruturais
+        # Filtragem de registros estruturais
         if index_only_items and codigo_norm:
             nivel = detect_ncm_level(codigo_norm)
             # Pula capítulos, posições e subposições se index_only_items=True
