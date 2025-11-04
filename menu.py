@@ -609,8 +609,72 @@ def llm_query(collection):
         input("\nPressione ENTER para continuar...")
 
 
+def perform_quick_search(collection, descricao):
+    """Executa busca vetorial rápida a partir do menu principal"""
+    try:
+        from search import find_ncm_hierarchical
+
+        print(f"\n{'='*70}")
+        print(f"BUSCA VETORIAL: {descricao}")
+        print(f"{'='*70}")
+
+        results = find_ncm_hierarchical(collection, descricao, k=5, prefer_items=True)
+
+        if results:
+            print(f"\nEncontrados {len(results)} resultados:\n")
+            for i, r in enumerate(results, 1):
+                cod = r.get('codigo_normalizado') or r.get('codigo')
+                desc = r['descricao']
+                dist = r['distance']
+                nivel = r.get('nivel', 'desconhecido')
+                print(f"{i}. NCM {cod} [{nivel}]")
+                print(f"   Distância: {dist:.4f}")
+                print(f"   Descrição: {desc}")
+                print()
+        else:
+            print("\nNenhum resultado encontrado.")
+
+    except Exception as e:
+        print(f"\nErro: {e}")
+        import traceback
+        traceback.print_exc()
+    finally:
+        input("\nPressione ENTER para continuar...")
+
+
+def perform_llm_search(collection, query):
+    """Executa busca com LLM a partir do menu principal"""
+    try:
+        from llm_client import chat, get_models
+        from search import find_ncm_hierarchical_with_context
+        from config import DEFAULT_MODEL
+
+        models = get_models()
+        current_model = DEFAULT_MODEL if DEFAULT_MODEL in models else (models[0] if models else DEFAULT_MODEL)
+
+        print(f"\n{'='*70}")
+        print("BUSCA COM LLM")
+        print(f"{'='*70}")
+        print(f"Query: {query}")
+        print(f"Modelo: {current_model}")
+        print(f"{'='*70}\n")
+
+        result = ""
+        for chunk in chat(collection, query, current_model, find_ncm_hierarchical_with_context):
+            result = chunk
+
+        print(f"[RESPOSTA]\n{result}\n")
+
+    except Exception as e:
+        print(f"\nErro: {e}")
+        import traceback
+        traceback.print_exc()
+    finally:
+        input("\nPressione ENTER para continuar...")
+
+
 def main_menu(collection: Optional = None):
-    """Menu principal"""
+    """Menu principal com busca inteligente"""
 
     # Se collection não foi fornecida, carrega
     if collection is None:
@@ -623,85 +687,110 @@ def main_menu(collection: Optional = None):
         print_header()
         print_menu()
 
-        choice = input("\nEscolha uma opção: ").strip()
+        print("\n💡 DICA: Você pode digitar:")
+        print("   - Um número (0-22) para acessar uma opção do menu")
+        print("   - 'consulta <descrição>' para busca vetorial rápida")
+        print("   - Qualquer texto para busca com LLM")
 
-        if choice == "0":
-            print("\n" + "="*70)
-            print("Encerrando sistema...")
-            print("="*70)
-            sys.exit(0)
+        choice = input("\nEscolha uma opção ou digite sua consulta: ").strip()
 
-        elif choice == "1":
-            launch_gradio_interface(collection)
+        if not choice:
+            continue
 
-        elif choice == "2":
-            launch_interactive_cli(collection)
+        # Verifica se é um número (opção de menu)
+        if choice.isdigit():
+            menu_option = choice
 
-        elif choice == "3":
-            show_sample(collection)
+            if menu_option == "0":
+                print("\n" + "="*70)
+                print("Encerrando sistema...")
+                print("="*70)
+                sys.exit(0)
 
-        elif choice == "4":
-            show_random(collection)
+            elif menu_option == "1":
+                launch_gradio_interface(collection)
 
-        elif choice == "5":
-            show_stats(collection)
+            elif menu_option == "2":
+                launch_interactive_cli(collection)
 
-        elif choice == "6":
-            run_basic_diagnostic(collection)
+            elif menu_option == "3":
+                show_sample(collection)
 
-        elif choice == "7":
-            run_quality_report(collection)
+            elif menu_option == "4":
+                show_random(collection)
 
-        elif choice == "8":
-            analyze_distances(collection)
+            elif menu_option == "5":
+                show_stats(collection)
 
-        elif choice == "9":
-            analyze_coverage(collection)
+            elif menu_option == "6":
+                run_basic_diagnostic(collection)
 
-        elif choice == "10":
-            evaluate_ground_truth(collection)
+            elif menu_option == "7":
+                run_quality_report(collection)
 
-        elif choice == "11":
-            analyze_embeddings_quality(collection)
+            elif menu_option == "8":
+                analyze_distances(collection)
 
-        elif choice == "12":
-            analyze_text_quality(collection)
+            elif menu_option == "9":
+                analyze_coverage(collection)
 
-        elif choice == "13":
-            run_embedding_benchmark()
+            elif menu_option == "10":
+                evaluate_ground_truth(collection)
 
-        elif choice == "14":
-            analyze_benchmark_results()
+            elif menu_option == "11":
+                analyze_embeddings_quality(collection)
 
-        elif choice == "15":
-            run_quick_benchmark()
+            elif menu_option == "12":
+                analyze_text_quality(collection)
 
-        elif choice == "16":
-            new_collection = reconfigure_database()
-            if new_collection:
-                collection = new_collection
+            elif menu_option == "13":
+                run_embedding_benchmark()
 
-        elif choice == "17":
-            clear_embeddings_cache()
+            elif menu_option == "14":
+                analyze_benchmark_results()
 
-        elif choice == "18":
-            clear_embeddings_cache_partial()
+            elif menu_option == "15":
+                run_quick_benchmark()
 
-        elif choice == "19":
-            show_system_info(collection)
+            elif menu_option == "16":
+                new_collection = reconfigure_database()
+                if new_collection:
+                    collection = new_collection
 
-        elif choice == "20":
-            quick_ncm_query(collection)
+            elif menu_option == "17":
+                clear_embeddings_cache()
 
-        elif choice == "21":
-            quick_attributes_query(collection)
+            elif menu_option == "18":
+                clear_embeddings_cache_partial()
 
-        elif choice == "22":
-            llm_query(collection)
+            elif menu_option == "19":
+                show_system_info(collection)
 
+            elif menu_option == "20":
+                quick_ncm_query(collection)
+
+            elif menu_option == "21":
+                quick_attributes_query(collection)
+
+            elif menu_option == "22":
+                llm_query(collection)
+
+            else:
+                print("\n❌ Opção inválida! Escolha um número entre 0 e 22.")
+                input("\nPressione ENTER para continuar...")
+
+        # Verifica se é uma consulta vetorial
+        elif choice.lower().startswith('consulta '):
+            descricao = choice[9:].strip()
+            if descricao:
+                perform_quick_search(collection, descricao)
+            else:
+                print("\n❌ Descrição vazia após 'consulta'.")
+                input("\nPressione ENTER para continuar...")
+
+        # Caso contrário, é uma busca com LLM
         else:
-            print("\n❌ Opção inválida! Escolha um número entre 0 e 22.")
-            input("\nPressione ENTER para continuar...")
+            perform_llm_search(collection, choice)
 
 
 if __name__ == "__main__":
