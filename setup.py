@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 from database import get_client, get_or_create_collection
 from config import CLEAR_DB, INDEX_ONLY_ITEMS
-from benchmark.diagnostics import check_prepared_documents
+# from diagnostico.diagnostics import check_prepared_documents  # Removido - função não essencial
 
 
 def setup_database():
@@ -94,7 +94,7 @@ def setup_database():
         print(f"    NCMs: {len(ncm_docs)}")
         print(f"    Atributos: {len(attr_docs)}")
 
-        check_prepared_documents(all_docs, all_metas, n=3)
+        # check_prepared_documents(all_docs, all_metas, n=3)  # Removido - função não essencial
 
         print("\n[6/6] Indexando no banco vetorial...")
         t0 = time.time()

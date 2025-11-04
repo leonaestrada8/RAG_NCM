@@ -4,7 +4,7 @@
 import argparse
 from setup import setup_database
 from visualization import show_sample_data, show_random_data, show_statistics
-from benchmark.diagnostics import comprehensive_diagnostic
+from diagnostico.diagnostics import comprehensive_diagnostic
 from config import DEFAULT_MODEL
 
 
