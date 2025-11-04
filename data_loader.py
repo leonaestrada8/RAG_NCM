@@ -1,5 +1,5 @@
-# data_loader_simplified.py
-
+# data_loader.py
+# Carregamento e normalizacao de dados NCM e atributos
 
 import pandas as pd
 import json
@@ -10,8 +10,13 @@ from config import NCM_FILE, ATRIBUTOS_FILE
 
 def normalize_ncm_code(code):
     """
-    Normaliza codigo NCM para formato com pontos
-    01012100 -> 0101.21.00
+    Normaliza codigo NCM para formato padrao com pontos.
+
+    Transforma codigo de 8 digitos sem formatacao em formato visual
+    com pontos separadores. Exemplo: 01012100 -> 0101.21.00
+
+    Remove pontos e hifens existentes antes de reformatar.
+    Se codigo nao tiver 8 digitos, retorna sem alteracao.
     """
     if not code or pd.isna(code):
         return ""
@@ -26,20 +31,19 @@ def normalize_ncm_code(code):
 
 def normalize_text_advanced(text, keep_stopwords_if_short=True):
     """
-    Normalização avançada de texto para melhorar busca semântica.
+    Normalizacao avancada de texto para melhorar busca semantica.
 
-    Aplica:
-    - Remoção de acentos (mantém semântica)
-    - Lowercase
-    - Limpeza de pontuação
-    - Remoção seletiva de stopwords
+    Processo de normalizacao:
+    1. Remove acentos convertendo para ASCII (mantem semantica)
+    2. Converte para minusculas
+    3. Remove pontuacao extra mantendo espacos e hifens
+    4. Remove espacos multiplos
+    5. Remove stopwords comuns apenas em textos longos (>3 palavras)
 
-    Args:
-        text: Texto para normalizar
-        keep_stopwords_if_short: Se True, mantém stopwords em textos curtos
+    Stopwords removidas seletivamente: de, da, do, dos, das, em, na, no, para, com, o, a
 
-    Returns:
-        Texto normalizado
+    Preserva stopwords em textos curtos para nao perder contexto importante.
+    Objetivo: melhorar qualidade dos embeddings sem perder semantica.
     """
     if not text or not isinstance(text, str):
         return ""
@@ -71,14 +75,17 @@ def normalize_text_advanced(text, keep_stopwords_if_short=True):
 
 def pad_ncm_code(code):
     """
-    Preenche código NCM corretamente baseado no tamanho original
-    Mantém a hierarquia correta sem preencher zeros à esquerda incorretamente
+    Preenche codigo NCM para 8 digitos respeitando hierarquia.
 
-    Exemplos:
-    - "01" (capítulo) -> "01000000"
-    - "0101" (posição) -> "01010000"
-    - "010121" (subposição) -> "01012100"
-    - "01012100" (item) -> "01012100"
+    Hierarquia NCM:
+    - 2 digitos = Capitulo     -> preenche com 000000 a direita
+    - 4 digitos = Posicao      -> preenche com 0000 a direita
+    - 6 digitos = Subposicao   -> preenche com 00 a direita
+    - 7 digitos = Caso especial-> preenche com 0 a direita
+    - 8 digitos = Item         -> retorna sem alteracao
+
+    Essencial para manter consistencia na hierarquia e permitir
+    busca e filtragem correta por nivel hierarquico.
     """
     if not code or pd.isna(code):
         return ''
@@ -101,7 +108,22 @@ def pad_ncm_code(code):
 
 
 def load_ncm_data():
-    """Carrega CSV com encoding correto e normaliza codigos"""
+    """
+    Carrega dados NCM do arquivo CSV configurado.
+
+    Tenta multiplos encodings (iso-8859-1, latin-1, cp1252, utf-8) ate
+    encontrar um que funcione, pois arquivo pode estar em diferentes encodings.
+
+    Operacoes realizadas:
+    - Le apenas colunas 0 (codigo) e 1 (descricao)
+    - Renomeia colunas para padrao Codigo/Descricao
+    - Remove espacos extras dos dados
+    - Filtra registros vazios
+    - Aplica padding correto nos codigos (pad_ncm_code)
+    - Gera codigo normalizado com pontos (normalize_ncm_code)
+
+    Retorna DataFrame com colunas: Codigo, Descricao, CodigoNormalizado
+    """
     encodings = ['iso-8859-1', 'latin-1', 'cp1252', 'utf-8']
 
     for encoding in encodings:
@@ -139,7 +161,16 @@ def load_ncm_data():
 
 
 def load_atributos_data():
-    """Carrega JSON de atributos"""
+    """
+    Carrega dados de atributos do arquivo JSON configurado.
+
+    Tenta multiplos encodings ate encontrar um valido.
+    JSON contem estrutura com chave 'listaNcm' contendo lista de objetos,
+    cada um com 'codigoNcm' e 'listaAtributos'.
+
+    Retorna dicionario com estrutura original do JSON.
+    Em caso de erro, retorna dicionario vazio com chave 'listaNcm'.
+    """
     encodings = ['utf-8', 'iso-8859-1', 'latin-1', 'cp1252']
     
     for encoding in encodings:
@@ -156,7 +187,17 @@ def load_atributos_data():
 
 
 def detect_ncm_level(codigo_norm):
-    """Detecta nivel hierarquico do NCM"""
+    """
+    Detecta nivel hierarquico de um codigo NCM.
+
+    Analisa codigo normalizado e determina nivel baseado no padrao:
+    - Capitulo: 2 digitos ou 8 digitos terminando em 000000
+    - Posicao: 4 digitos ou 8 digitos terminando em 0000
+    - Subposicao: 6 digitos ou 8 digitos terminando em 00
+    - Item: 8 digitos completos sem zeros finais
+
+    Retorna string: 'capitulo', 'posicao', 'subposicao', 'item' ou 'desconhecido'
+    """
     if not codigo_norm:
         return 'desconhecido'
     
@@ -176,8 +217,17 @@ def detect_ncm_level(codigo_norm):
 
 def build_ncm_hierarchy(ncm_df):
     """
-    Constroi hierarquia NCM simplificada
-    Mantido para compatibilidade mas nao usado na indexacao
+    Constroi dicionario de hierarquia NCM.
+
+    Para cada codigo NCM, armazena:
+    - nivel: capitulo/posicao/subposicao/item
+    - capitulo: codigo e titulo do capitulo pai
+    - posicao: codigo e titulo da posicao pai
+
+    Percorre DataFrame sequencialmente mantendo contexto do capitulo
+    e posicao atual para associar a subitens e items.
+
+    Retorna dicionario indexado por codigo NCM completo.
     """
     hierarchy = {}
     
@@ -210,7 +260,12 @@ def build_ncm_hierarchy(ncm_df):
 
 def create_atributos_dict(atributos_data):
     """
-    Cria dicionario de atributos por NCM
+    Cria dicionario de busca rapida de atributos por codigo NCM.
+
+    Extrai 'listaNcm' do JSON e mapeia cada codigoNcm para sua
+    listaAtributos correspondente.
+
+    Retorna dicionario: {codigo_ncm: lista_de_atributos}
     """
     atributos_dict = {}
     
@@ -223,15 +278,23 @@ def create_atributos_dict(atributos_data):
 
 def create_enriched_ncm_text(row, hierarchy, atributos_dict):
     """
-    Cria texto ENRIQUECIDO com hierarquia completa do NCM
+    Cria texto enriquecido para indexacao vetorial de um NCM.
 
-    Inclui contexto hierárquico para melhorar precisão das buscas:
-    - Descrição do item específico
-    - Categoria hierárquica (posição)
-    - Capítulo ao qual pertence
-    - Nível hierárquico
+    Combina multiplas informacoes para melhorar qualidade dos embeddings:
+    - Codigo NCM normalizado e descricao principal
+    - Contexto hierarquico (capitulo e posicao) quando aplicavel
+    - Nivel hierarquico (capitulo/posicao/subposicao/item)
+    - Indicacao de quantidade de atributos cadastrados
 
-    Objetivo: Melhorar qualidade dos embeddings através de contexto hierárquico
+    Estrategia de enriquecimento por nivel:
+    - Items e subposicoes: inclui capitulo e posicao pai
+    - Posicoes: inclui apenas capitulo pai
+    - Capitulos: formato simplificado
+
+    Aplica normalizacao avancada de texto (opcional via env DISABLE_NORMALIZATION)
+    para melhorar embeddings removendo acentos, stopwords e pontuacao.
+
+    Retorna string formatada pronta para vetorizacao.
     """
     codigo = row['Código']
     codigo_norm = row['CódigoNormalizado']
@@ -293,8 +356,17 @@ def create_enriched_ncm_text(row, hierarchy, atributos_dict):
 
 def create_atributo_description(ncm_code, atributo):
     """
-    Cria texto descritivo para atributo
-    Mantido igual
+    Cria texto descritivo para indexacao de um atributo NCM.
+
+    Formata informacoes do atributo em texto estruturado:
+    - Codigo NCM associado
+    - Codigo do atributo
+    - Modalidade (Importacao/Exportacao)
+    - Se e obrigatorio ou opcional
+    - Se e multivalorado
+    - Data de inicio de vigencia
+
+    Retorna string formatada multiplas linhas.
     """
     return f"""NCM: {ncm_code}
 Código Atributo: {atributo['codigo']}
@@ -304,40 +376,4 @@ Multivalorado: {'Sim' if atributo['multivalorado'] else 'Não'}
 Data Início Vigência: {atributo['dataInicioVigencia']}"""
 
 
-# ============================================================
-# COMPARACAO DE ABORDAGENS
-# ============================================================
-
-def create_enriched_ncm_text_ORIGINAL(row, hierarchy, atributos_dict):
-    """
-    VERSAO ORIGINAL (PARA REFERENCIA)
-    Texto muito longo com multiplos niveis
-    
-    Exemplo de output:
-    NCM: 0901.11.10
-    Capítulo 09: Café, chá, mate e especiarias
-    Posição 0901: Café, mesmo torrado ou descafeinado
-    Subposição 09011: Café não torrado
-    Descrição: Café em grão não descafeinado
-    Atributos Importação: 8 (2 obrigatórios)
-    Códigos: ATT_123, ATT_456, ...
-    """
-    pass
-
-
-def create_enriched_ncm_text_SIMPLIFICADO(row, hierarchy, atributos_dict):
-    """
-    VERSAO SIMPLIFICADA (IMPLEMENTADA)
-    Texto curto focado na descricao
-    
-    Exemplo de output:
-    NCM 0901.11.10: Café em grão não descafeinado
-    
-    Vantagens:
-    - Embeddings mais precisos
-    - Menos ruído nos vetores
-    - Buscas mais relevantes
-    - Distâncias menores
-    """
-    pass
 

@@ -8,15 +8,23 @@ from tqdm import tqdm
 
 def prepare_ncm_documents(ncm_data, hierarchy, atributos_dict, index_only_items=False):
     """
-    Prepara documentos NCM enriquecidos para indexacao
-    Com deteccao robusta de nomes de colunas (encoding issues)
+    Prepara documentos NCM para indexacao no banco vetorial.
 
-    Args:
-        ncm_data: DataFrame com dados NCM
-        hierarchy: Dicionário com hierarquia NCM
-        atributos_dict: Dicionário com atributos por NCM
-        index_only_items: Se True, indexa apenas items (8 dígitos completos),
-                         ignorando capítulos/posições/subposições estruturais
+    Processa DataFrame de NCMs e gera:
+    - Textos enriquecidos para vetorizacao
+    - Metadados estruturados para cada documento
+    - IDs unicos para cada documento
+
+    Deteccao automatica de nomes de colunas para suportar diferentes encodings.
+
+    Se index_only_items=True, indexa apenas items completos (8 digitos),
+    ignorando capitulos, posicoes e subposicoes. Reduz tamanho do banco
+    mas perde contexto hierarquico geral.
+
+    Se index_only_items=False, indexa todos niveis hierarquicos permitindo
+    buscas tanto especificas (items) quanto gerais (capitulos/posicoes).
+
+    Retorna tupla: (documents, metadatas, ids)
     """
     from data_loader import create_enriched_ncm_text, detect_ncm_level
 
@@ -105,7 +113,19 @@ def prepare_ncm_documents(ncm_data, hierarchy, atributos_dict, index_only_items=
 
 
 def prepare_atributos_documents(atributos_data):
-    """Prepara documentos de atributos para indexacao"""
+    """
+    Prepara documentos de atributos para indexacao.
+
+    Processa estrutura JSON de atributos e gera documento para cada
+    atributo individual de cada NCM.
+
+    Para cada atributo, cria:
+    - Texto descritivo formatado
+    - Metadata com codigo NCM, codigo atributo, modalidade, etc
+    - ID unico no formato attr_{ncm_idx}_{attr_idx}
+
+    Retorna tupla: (documents, metadatas, ids)
+    """
     from data_loader import create_atributo_description
     
     documents = []
@@ -145,7 +165,19 @@ def prepare_atributos_documents(atributos_data):
 
 
 def index_documents(collection, documents, metadatas, ids):
-    """Indexa documentos no banco vetorial em lotes"""
+    """
+    Indexa documentos no banco vetorial ChromaDB em lotes.
+
+    Processo de indexacao:
+    1. Gera embeddings de todos documentos usando encode_batch
+    2. Divide documentos em lotes de tamanho BATCH_SIZE
+    3. Adiciona cada lote ao ChromaDB com ids, documentos, embeddings e metadatas
+
+    Processamento em lotes e necessario pois ChromaDB tem limite de
+    ~5461 documentos por operacao de adicao.
+
+    Mostra barra de progresso durante indexacao.
+    """
     if not documents:
         print("Nenhum documento para indexar")
         return
