@@ -1,6 +1,6 @@
 # embedding_cache.py
 # Sistema de cache para embeddings de documentos
-# Evita recalcular embeddings e acelera re-indexações
+
 
 import pickle
 import hashlib

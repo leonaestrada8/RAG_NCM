@@ -1,6 +1,5 @@
 # data_loader_simplified.py
-# Versao simplificada com texto focado apenas na descricao do NCM
-# Reduz ruido e melhora qualidade das buscas vetoriais
+
 
 import pandas as pd
 import json
