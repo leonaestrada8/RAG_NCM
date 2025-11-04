@@ -40,6 +40,10 @@ def pause():
     """Pausa"""
     input("\nPressione ENTER...")
 
+def option_5(c):
+    from visualization import show_statistics
+    show_statistics(c)
+    pause()
 
 def get_int(prompt, default):
     """Input inteiro"""
@@ -62,6 +66,10 @@ def option_2(c):
     from main import interactive_mode
     interactive_mode(c)
 
+def option_11(c):
+    from benchmark.diagnostics import analyze_embedding_quality
+    analyze_embedding_quality(c)
+    pause()
 
 def option_3(c):
     from visualization import show_sample_data
@@ -112,6 +120,10 @@ def option_10(c):
     evaluate_known_ncm_queries(c)
     pause()
 
+def option_17(c):
+    import subprocess
+    subprocess.run([sys.executable, "benchmark/clear_cache.py"])
+    pause()
 
 def option_11(c):
     if input("\n⚠️  APAGA banco. Continuar? [s/N]: ").lower() not in ['s', 'sim', 'y', 'yes']:
